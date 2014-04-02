@@ -1,2 +1,2 @@
-Kuroko-no-Databasul
+Kuroko-no-Databasuke
 ===================
