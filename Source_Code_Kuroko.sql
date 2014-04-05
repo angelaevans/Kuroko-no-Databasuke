@@ -5,7 +5,7 @@ CREATE TABLE Users( userID SERIAL PRIMARY KEY, username VARCHAR(30) UNIQUE);
 
 CREATE TABLE Conversation(conID SERIAL PRIMARY KEY, userID INTEGER REFERENCES Users(userID), friendID INTEGER, userMessage VARCHAR(100), sentMessage VARCHAR(100)  );  
 
-CREATE TABLE Pictures(picID SERIAL PRIMARY KWY, authorID INTEGER REFERECNES Users(userID), picPath VARCHAR(50));
+CREATE TABLE Pictures(picID SERIAL PRIMARY KeY, authorID INTEGER REFERENCES Users(userID), picPath VARCHAR(50));
 
 INSERT INTO Users (username) VALUES  ('Kagami'), ('Kuroko'), ('Hyuga'), ('Kiyoshi'), ('Izuki'), ('Mitobe'), ('Koganei'), ('Tsuchida'),  ('Furihata'), ('Kawahara'), ('Fukuda'), ('Riko'),  ('Midorima'), ('Aomine'), ('Kise'), ('Murasakibara'),  ('Momoi'), ('Akashi'), ('Himuro'), ('Takao');
 
