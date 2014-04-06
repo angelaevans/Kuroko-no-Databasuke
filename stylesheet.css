@@ -1,0 +1,27 @@
+@charset "UTF-8";
+/* CSS Document */
+div img{
+	width:auto;
+	height:auto;
+}
+
+#username{
+	font-size: 3.5em;
+	font-family: "Impact";
+	color: #30ACFF;	
+}
+
+#textfield{
+	border: 2px solid #FF1919;
+	font-size: 1.5em;
+}
+
+#Login{
+	font-size: 1.5em;
+	font-family: "Impact";
+}
+
+#NewUser{
+	font-size: 1.5em;
+	font-family: "Impact";
+}
