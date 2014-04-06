@@ -1,17 +1,23 @@
 ------------------------------
 - Updated Creation Commands
 ------------------------------
-CREATE TABLE Users( userID SERIAL PRIMARY KEY, username VARCHAR(30) UNIQUE);  
+Drop TABLE Conversation CASCADE;
 
-CREATE TABLE Pictures(picID SERIAL PRIMARY KeY, authorID INTEGER REFERENCES Users(userID), picPath VARCHAR(200));
+Drop TABLE Pictures CASCADE;
 
-CREATE TABLE Conversation(conID SERIAL PRIMARY KEY, userID INTEGER REFERENCES Users(userID) not null, friendID INTEGER not null, userMessage INTEGER REFERENCES Pictures(picID), sentMessage INTEGER REFERENCES Pictures(picID) );  
+Drop TABLE Users CASCADE;
+
+CREATE TABLE Users(userID SERIAL PRIMARY KEY, username VARCHAR(30) UNIQUE not null);  
+
+CREATE TABLE Pictures(picID SERIAL PRIMARY KeY, authorID INTEGER REFERENCES Users(userID) not null, picPath VARCHAR(200) not null);
+
+CREATE TABLE Conversation(conID SERIAL PRIMARY KEY, userID INTEGER REFERENCES Users(userID) not null, friendID INTEGER not null, sentMessage INTEGER REFERENCES Pictures(picID));  
 
 INSERT INTO Users (username) VALUES  ('Kagami'), ('Kuroko'), ('Hyuga'), ('Kiyoshi'), ('Izuki'), ('Mitobe'), ('Koganei'), ('Tsuchida'),  ('Furihata'), ('Kawahara'), ('Fukuda'), ('Riko'),  ('Midorima'), ('Aomine'), ('Kise'), ('Murasakibara'),  ('Momoi'), ('Akashi'), ('Himuro'), ('Takao');
 
 INSERT INTO Conversation(userID, friendID) VALUES (1, 8), (1, 2), (1, 4), (1, 19),  (1, 5), (2, 10), (2, 4), (2, 18),  (2, 16), (2, 7), (3, 5), (3, 1),  (3, 10), (3, 18), (3, 14), (4, 14),  (4, 16), (4, 17), (4, 3), (5, 11),  (5, 8), (5, 20), (5, 6), (5, 13),  (6, 16), (6, 8), (6, 7),  (7, 17), (7, 19), (7, 1), (7, 14),  (7, 11), (8, 19), (8, 15), (8, 6),  (8, 2), (9, 6), (9, 19),  (9, 20), (9, 8), (10, 7), (10, 5),  (10, 12), (10, 4), (11, 1), (11, 20),  (11, 13), (11, 12), (12, 13), (12, 11),  (12, 5), (12, 9), (13, 20), (13, 10),  (13, 15), (13, 6), (14, 3), (14, 11),  (14, 5), (14, 10), (15, 2), (15, 18),  (15, 9), (15, 8), (15, 20), (16, 15),  (16, 13), (16, 3), (16, 17), (17, 12),  (17, 9), (17, 18), (18, 9), (18, 3),  (18, 16), (18, 11), (18, 1), (19, 18),  (19, 14), (19, 7), (19, 15), (20, 4),  (20, 6), (20, 2), (20, 19);
 
-INSERT INTO Pictures(authorID, picPath) VALUES (1, 'https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-prn1/t39.1997-6/p128x128/851575_392310030866309_792706737_n.png' );
+INSERT INTO Pictures(authorID, picPath) VALUES (1, 'https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-prn1/t39.1997-6/p128x128/851575_392310030866309_792706737_n.png' ), (14, 'https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-ash3/t39.1997-6/p128x128/851539_167788253418461_193227798_n.png'), (2, 'https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-prn1/t39.1997-6/p240x240/851568_555287751225746_516387701_n.png');
 
 ------------------------------
 - All used SQL/PostgreSQL
@@ -58,7 +64,7 @@ CREATE TEMP VIEW conversationNames AS (SELECT username,conid FROM users NATURAL 
 CREATE UNIQUE INDEX userid_idx ON users (userid);
 
 --Creates a function that adds a user to the database
-CREATE OR REPLACE FUNCTION insertUser(uname varchar(30)) 
+CREATE OR REPLACE FUNCTION insertUser(uname text) 
 RETURNS VOID AS
 $BODY$
 INSERT INTO Users(username) VALUES (uname);
@@ -73,3 +79,12 @@ $BODY$
 DELETE FROM Conversation WHERE conid IN (SELECT getConversation(uid, fid));
 $BODY$
 LANGUAGE sql;
+
+--Default value for a sent message is 1
+CREATE OR REPLACE FUNCTION Defaultpicture() RETURNS TRIGGER AS $Defaultpicture$ BEGIN New.sentMessage = 1; RETURN NEW; END; $Defaultpicture$ LANGUAGE plpgsql;
+
+--When insterting, will make the sent message be default. should not run when not insert aka updating/sending a new message
+CREATE TRIGGER Tr_ConversationPictureDefault BEFORE INSERT ON Conversation FOR EACH ROW EXECUTE PROCEDURE Defaultpicture();
+
+--alters table to a new message
+CREATE OR REPLACE FUNCTION Sendnewmessage(username text, friendname text, pictureid integer) RETURNS VOID AS $SendNewMessage$ DECLARE	useridvar int;	friendidvar int; BEGIN Select usernametoid(username) into useridvar;	Select usernametoid(friendname) into friendidvar; UPDATE Conversation SET sentMessage = pictureid WHERE (userID = useridvar AND friendID = friendidvar); END; $SendNewMessage$ LANGUAGE plpgsql;
