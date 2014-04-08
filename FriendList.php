@@ -24,10 +24,54 @@
     <td width="513" align="center"><img src="Kuroko/friends-season.jpg" alt="" width="441" height="302" align="right"/></td>
   </tr>
 </table>
+<form class="form" id="addFriendForm" name="addFriendForm" method="POST">
 <p align="center">
   <label for="textfield">Add New Friend:</label>
-	<input type="text" name="textfield" id="textfield" placeholder="Friend's Username">
-	<input type="button" name="AddFriend" id="AddFriend" value="Add Friend">
+	<input type="text" name="add" id="textfield" placeholder="Friend's Username">
+	<input type="submit" name="AddFriend" id="AddFriend" value="Add Friend">
+
+  <label for="textfield">Delete Friend:</label>
+	<input type="text" name="delete" id="textfield" placeholder="Friend's Username">
+	<input type="submit" name="DeleteFriend" id="DeleteFriend" value="Delete Friend">
 </p>
+</form>
 </body>
 </html>
+
+<?php
+$conn  = pg_connect("host=postgres.cise.ufl.edu dbname=kuroko user=htluong password=Fun40xint101r2");
+
+if (!$conn) { 
+  echo "Connection failed";
+  exit;
+}
+
+if($_POST[AddFriend]){
+$insert = "SELECT Addfriend('$_SESSION[uname]', '$_POST[add]')";
+$result = pg_query($conn, $insert);
+$row = pg_num_rows($result);
+if(row > 1){
+	echo "<p align='center'>Already friends</p>";
+	exit;
+}
+else{
+	header("Location: Conversation.html");
+	exit;
+}
+}
+
+if($_POST[DeleteFriend]){
+$del = "SELECT deleteFriend('$_SESSION[uname]', '$_POST[delete]')";
+$result = pg_query($conn, $del);
+$row = pg_num_rows($result);
+if(!result){
+	echo "<p align='center'>Not Friends</p>";
+	exit;
+}
+else{
+	echo "<p align='center'>Friend Deleted</p>";
+	exit;
+}
+}
+//The messages don't output right, but the friends are added/deleted correctly
+?>
