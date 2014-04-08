@@ -1,0 +1,25 @@
+@charset "UTF-8";
+/* CSS Document */
+h1{	
+	font-family: "Impact";
+	background-color: #30ACFF;
+	font-size: 4em;
+}
+
+#friend{	
+	font-size: 3.5em;
+	font-family: "Impact";
+	color: #FF1919;
+}
+
+#friendlist{
+	font-size: 2.5em;
+}
+
+ul{
+	overflow: auto;
+	font-size: 1.5em;
+	width: 8em;
+	height: 14em;
+	border: 2px solid #00CC00;
+}

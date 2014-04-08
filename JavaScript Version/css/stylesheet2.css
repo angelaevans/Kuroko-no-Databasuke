@@ -1,0 +1,16 @@
+@charset "UTF-8";
+/* CSS Document */
+h1{
+	font-family: "Impact";
+	background-color: #30ACFF;
+	font-size: 4em;
+}
+
+#table{
+	border: .01em solid #001BFA;
+	background-color: #001BFA;
+}
+
+td{
+	background-color: #FCFAFA;
+}

@@ -1,0 +1,18 @@
+rset "UTF-8";
+/* CSS Document */
+div img{
+	width:auto;
+	height:auto;
+}
+
+
+#Usernameinput{
+	font-size: 1.5em;
+}
+
+#Login{
+	font-size: 1.5em;
+}
+#NewUser{
+	font-size: 1.5em;
+}
