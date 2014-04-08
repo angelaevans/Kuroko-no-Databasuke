@@ -88,3 +88,16 @@ CREATE TRIGGER Tr_ConversationPictureDefault BEFORE INSERT ON Conversation FOR E
 
 --alters table to a new message
 CREATE OR REPLACE FUNCTION Sendnewmessage(username text, friendname text, pictureid integer) RETURNS VOID AS $SendNewMessage$ DECLARE	useridvar int;	friendidvar int; BEGIN Select usernametoid(username) into useridvar;	Select usernametoid(friendname) into friendidvar; UPDATE Conversation SET sentMessage = pictureid WHERE (userID = useridvar AND friendID = friendidvar); END; $SendNewMessage$ LANGUAGE plpgsql;
+
+--Creates a function which returns the list of friends of a username, with the username as the input--
+CREATE OR REPLACE FUNCTION friendList(uname text) 
+RETURNS SETOF text AS
+$body$ 
+	SELECT username 
+	FROM Users 
+	WHERE userID IN 
+		(SELECT friendID 
+		FROM Users, Conversation 
+		WHERE Conversation.userID = (SELECT usernametoid(uname))) 
+$body$ 
+LANGUAGE sql;
