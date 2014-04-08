@@ -73,10 +73,10 @@ LANGUAGE sql;
 
 --Creates a function that deletes both sides of a conversation
 CREATE OR REPLACE FUNCTION 
-deleteFriend(uid integer, fid integer)
+deleteFriend(uname text, fname text)
 RETURNS VOID AS
 $BODY$
-DELETE FROM Conversation WHERE conid IN (SELECT getConversation(uid, fid));
+DELETE FROM Conversation WHERE conid IN (SELECT getConversation(usernametoid(uname), usernametoid(fname)));
 $BODY$
 LANGUAGE sql;
 
