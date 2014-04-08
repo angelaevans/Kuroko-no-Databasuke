@@ -40,7 +40,7 @@
 		if($_POST[Friend])
 		{
 			$_SESSION = /*Script goes here?*/
-			header("Location: Conversation.html");
+			header("Location: Conversation.php");
 			exit;
 		}
 
