@@ -16,30 +16,48 @@
   </label></h1>
 <p align="center">
   <input type="text" placeholder="Username" name="username" id="textfield"><br>
-  <input name="Login" type="button" id="Login" value=" Login!       "><input name="NewUser" type="submit" id="NewUser" value="New User!">
+  <input name="Login" type="submit" id="Login" value="Login!"><input name="NewUser" type="submit" id="NewUser" value="New User!">
 </p>
 </form>
 </body>
 </html>
 <?php
-$conn  = pg_connect('user=htluong host=postgres.cise.ufl.edu dbname=kuroko password=Fun40xint101r2');
+$conn  = pg_connect("host=postgres.cise.ufl.edu dbname=kuroko user=htluong password=Fun40xint101r2");
 
 if (!$conn) { 
   echo "Connection failed";
   exit;
 }
 
+session_start();
+$_SESSION['uname']= $_POST[username];
+
+if($_POST[Login]){
+$query = "SELECT userid FROM Users WHERE username = '$_SESSION[uname]'";
+$result = pg_query($conn, $query);
+$row = pg_num_rows($result);
+echo $row;
+if($row == 0){
+	echo "<p align='center'>Username does not exist. Create new account?</p>";
+	exit;
+}
+else{
+	header("Location: FriendList.php");
+	exit;
+}
+}
+
 if ($_POST[NewUser]){
 $query = "SELECT insertUser('$_POST[username]')";
 $result = pg_query($conn, $query);
 if (!$result) {
-    echo "No submission. Maybe the Username is already used?\n";
+    echo "<p align='center'>No submission. Maybe the Username is already used?\n</p>";
     exit;
 }
-}
-elseif{
-    echo "The login would happen here.\n";
+else{
+    header("Location: FriendList.php");
     exit;
 }
 }
 ?>
+

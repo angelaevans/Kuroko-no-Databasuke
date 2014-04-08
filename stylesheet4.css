@@ -3,3 +3,8 @@
 table{
 	overflow: auto;
 }
+
+div{
+	height="500";
+	width="500";	
+}

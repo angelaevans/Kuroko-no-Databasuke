@@ -1,14 +1,16 @@
+#!/usr/local/bin/php
 <!doctype html>
+<?php session_start();?>
 <html>
 <head>
 <meta charset="UTF-8">
 <link type="text/css" rel="stylesheet" href="stylesheet3.css" />
-<title>Current User</title>
+<title><?php echo $_SESSION['uname']; ?></title>
 </head>
 
 <body>
 <div>
-  <h1>Username goes here</h1>
+  <h1><?php echo $_SESSION['uname']; ?></h1>
 </div>
 <table align="center" width="751" height="459">
   <tr>
@@ -16,7 +18,6 @@
   </tr>
   <tr>
     <td height="380"><ul>
-  	<li>Murasakibara</li>
      <!--fill with php loop.
      not sure how to link to conversation page-->
 	</ul></td>

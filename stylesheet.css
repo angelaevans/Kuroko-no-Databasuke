@@ -1,4 +1,4 @@
-@charset "UTF-8";
+rset "UTF-8";
 /* CSS Document */
 div img{
 	width:auto;
@@ -20,7 +20,6 @@ div img{
 	font-size: 1.5em;
 	font-family: "Impact";
 }
-
 #NewUser{
 	font-size: 1.5em;
 	font-family: "Impact";
