@@ -84,7 +84,7 @@ if(row > 1){
 	exit;
 }
 else{
-	header("Location: Conversation.html");
+	header("Location: Conversation.php");
 	exit;
 }
 }
