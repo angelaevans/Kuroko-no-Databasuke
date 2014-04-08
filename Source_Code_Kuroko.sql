@@ -33,10 +33,10 @@ CREATE OR REPLACE FUNCTION CreateDuality() RETURNS TRIGGER AS $CreateDuality$ BE
 CREATE TRIGGER Tr_Friending AFTER INSERT ON conversation FOR EACH ROW EXECUTE PROCEDURE CreateDuality();
 
 -- Rule that insures if the insert already exists on the conversation table then do not insert.
-CREATE OR REPLACE RULE Tr_DoubleFriends AS ON INSERT TO Conversation WHERE EXISTS (SELECT userid, friendid FROM Conversation a WHERE a.userid = NEW.userid and a.friendid = NEW.friendid) DO NOTHING;
+CREATE OR REPLACE RULE Tr_DoubleFriends AS ON INSERT TO Conversation WHERE EXISTS (SELECT userid, friendid FROM Conversation a WHERE a.userid = NEW.userid and a.friendid = NEW.friendid) DO INSTEAD NOTHING;
 
 -- Rule that insures if the insert already exists on the users table then do not insert.
-CREATE OR REPLACE RULE Tr_Doubleuser AS ON INSERT TO Users WHERE EXISTS (SELECT userid FROM Users a WHERE a.userid = NEW.userid or a.username = NEW.username) DO NOTHING;
+CREATE OR REPLACE RULE Tr_Doubleuser AS ON INSERT TO Users WHERE EXISTS (SELECT userid FROM Users a WHERE a.userid = NEW.userid or a.username = NEW.username) DO INSTEAD NOTHING;
 
 
 -- Function that takes in a name argument, quarries, and returns the userid
