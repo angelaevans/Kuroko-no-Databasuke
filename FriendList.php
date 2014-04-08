@@ -39,8 +39,9 @@
 </html>
 
 <?php
-$conn  = pg_connect("host=postgres.cise.ufl.edu dbname=kuroko user=htluong password=Fun40xint101r2");
+include_once "config_def.php";
 
+$conn  = pg_connect(CONNECTIONINFO);
 if (!$conn) { 
   echo "Connection failed";
   exit;
@@ -75,3 +76,4 @@ else{
 }
 //The messages don't output right, but the friends are added/deleted correctly
 ?>
+
