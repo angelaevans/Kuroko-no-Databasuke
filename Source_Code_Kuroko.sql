@@ -1,11 +1,11 @@
 ------------------------------
 - Updated Creation Commands
 ------------------------------
-Drop TABLE Conversation CASCADE;
+DROP TABLE IF EXISTS Conversation CASCADE;
 
-Drop TABLE Pictures CASCADE;
+DROP TABLE IF EXISTS Pictures CASCADE;
 
-Drop TABLE Users CASCADE;
+DROP TABLE IF EXISTS Users CASCADE;
 
 CREATE TABLE Users(userID SERIAL PRIMARY KEY, username VARCHAR(30) UNIQUE not null);  
 
@@ -15,9 +15,10 @@ CREATE TABLE Conversation(conID SERIAL PRIMARY KEY, userID INTEGER REFERENCES Us
 
 INSERT INTO Users (username) VALUES  ('Kagami'), ('Kuroko'), ('Hyuga'), ('Kiyoshi'), ('Izuki'), ('Mitobe'), ('Koganei'), ('Tsuchida'),  ('Furihata'), ('Kawahara'), ('Fukuda'), ('Riko'),  ('Midorima'), ('Aomine'), ('Kise'), ('Murasakibara'),  ('Momoi'), ('Akashi'), ('Himuro'), ('Takao');
 
+INSERT INTO Pictures(authorID, picPath) VALUES (1, 'https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-prn1/t39.1997-6/p128x128/851575_392310030866309_792706737_n.png' ), (14, 'https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-ash3/t39.1997-6/p128x128/851539_167788253418461_193227798_n.png'), (2, 'https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-prn1/t39.1997-6/p240x240/851568_555287751225746_516387701_n.png');
+
 INSERT INTO Conversation(userID, friendID) VALUES (1, 8), (1, 2), (1, 4), (1, 19),  (1, 5), (2, 10), (2, 4), (2, 18),  (2, 16), (2, 7), (3, 5), (3, 1),  (3, 10), (3, 18), (3, 14), (4, 14),  (4, 16), (4, 17), (4, 3), (5, 11),  (5, 8), (5, 20), (5, 6), (5, 13),  (6, 16), (6, 8), (6, 7),  (7, 17), (7, 19), (7, 1), (7, 14),  (7, 11), (8, 19), (8, 15), (8, 6),  (8, 2), (9, 6), (9, 19),  (9, 20), (9, 8), (10, 7), (10, 5),  (10, 12), (10, 4), (11, 1), (11, 20),  (11, 13), (11, 12), (12, 13), (12, 11),  (12, 5), (12, 9), (13, 20), (13, 10),  (13, 15), (13, 6), (14, 3), (14, 11),  (14, 5), (14, 10), (15, 2), (15, 18),  (15, 9), (15, 8), (15, 20), (16, 15),  (16, 13), (16, 3), (16, 17), (17, 12),  (17, 9), (17, 18), (18, 9), (18, 3),  (18, 16), (18, 11), (18, 1), (19, 18),  (19, 14), (19, 7), (19, 15), (20, 4),  (20, 6), (20, 2), (20, 19);
 
-INSERT INTO Pictures(authorID, picPath) VALUES (1, 'https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-prn1/t39.1997-6/p128x128/851575_392310030866309_792706737_n.png' ), (14, 'https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-ash3/t39.1997-6/p128x128/851539_167788253418461_193227798_n.png'), (2, 'https://fbcdn-dragon-a.akamaihd.net/hphotos-ak-prn1/t39.1997-6/p240x240/851568_555287751225746_516387701_n.png');
 
 ------------------------------
 - All used SQL/PostgreSQL
@@ -72,13 +73,7 @@ $BODY$
 LANGUAGE sql;
 
 --Creates a function that deletes both sides of a conversation
-CREATE OR REPLACE FUNCTION 
-deleteFriend(uname text, fname text)
-RETURNS VOID AS
-$BODY$
-DELETE FROM Conversation WHERE conid IN (SELECT getConversation(usernametoid(uname), usernametoid(fname)));
-$BODY$
-LANGUAGE sql;
+CREATE OR REPLACE FUNCTION deleteFriend(uname text, fname text) RETURNS VOID AS $deleteFriend$ DECLARE uid int;	fid int; BEGIN Select usernametoid(uname) into uid;	Select usernametoid(fname) into fid; DELETE FROM Conversation WHERE conid = (SELECT conid from conversation where (userId = uid and friendid =fid)); DELETE FROM Conversation WHERE conid = (SELECT conid from conversation where (userId = fid and friendid =uid)); END; $deleteFriend$ LANGUAGE plpgsql;
 
 --Default value for a sent message is 1
 CREATE OR REPLACE FUNCTION Defaultpicture() RETURNS TRIGGER AS $Defaultpicture$ BEGIN New.sentMessage = 1; RETURN NEW; END; $Defaultpicture$ LANGUAGE plpgsql;
@@ -93,11 +88,6 @@ CREATE OR REPLACE FUNCTION Sendnewmessage(username text, friendname text, pictur
 CREATE OR REPLACE FUNCTION friendList(uname text) 
 RETURNS SETOF text AS
 $body$ 
-	SELECT username 
-	FROM Users 
-	WHERE userID IN 
-		(SELECT friendID 
-		FROM Users, Conversation 
-		WHERE Conversation.userID = (SELECT usernametoid(uname))) 
+	SELECT username 	FROM Users 	WHERE userID IN 		(SELECT friendID 		FROM Users, Conversation 		WHERE Conversation.userID = (SELECT usernametoid(uname))) 
 $body$ 
 LANGUAGE sql;
