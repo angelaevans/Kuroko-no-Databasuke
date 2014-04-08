@@ -23,3 +23,10 @@ ul{
 	height: 14em;
 	border: 2px solid #00CC00;
 }
+
+#Friend{
+	color: black;
+	background: none;
+	border: 0;
+	font-size: 1.2em;
+}
