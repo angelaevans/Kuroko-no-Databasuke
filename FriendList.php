@@ -21,12 +21,15 @@
     <td height="380"><ul>
 	<form class="form" id="FriendList" name="FriendList" method="POST">
 	<?php
-		$conn  = pg_connect("host=postgres.cise.ufl.edu dbname=kuroko user=htluong password=Fun40xint101r2");
+		
+		include_once "config_def.php";
 
-		if (!$conn) { 
-  		echo "Connection failed";
-  		exit;
-		}
+		$conn = pg_connect(CONNECTIONINFO);
+		if (!$conn) {
+		  echo "Connection failed";
+ 		  exit;
+		}	
+
 		$query = "SELECT friendList('$_SESSION[uname]')";
 		$result = pg_query($conn, $query);
 		$fList = pg_fetch_all_columns($result, 0);
