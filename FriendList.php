@@ -32,8 +32,15 @@
 		$fList = pg_fetch_all_columns($result, 0);
 		foreach($fList as &$friend)
 		{
-			echo "<input type=submit id=Friend value=" . $friend . "> <br>";
+			echo "<input name=Friend type=submit id=Friend value=" . $friend . "> <br>";
 		}
+		if($_POST[Friend])
+		{
+			$_SESSION = /*Script goes here?*/
+			header("Location: Conversation.html");
+			exit;
+		}
+
 		
 	?>
 	</form>
