@@ -36,7 +36,6 @@ if($_POST[Login]){
 $query = "SELECT userid FROM Users WHERE username = '$_SESSION[uname]'";
 $result = pg_query($conn, $query);
 $row = pg_num_rows($result);
-echo $row;
 if($row == 0){
 	echo "<p align='center'>Username does not exist. Create new account?</p>";
 	exit;
