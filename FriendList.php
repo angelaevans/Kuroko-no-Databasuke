@@ -12,14 +12,31 @@
 <div>
   <h1><?php echo $_SESSION['uname']; ?></h1>
 </div>
+
 <table align="center" width="751" height="459">
   <tr>
     <td width="226" height="71"><label id="friend" for="select">Friends:</label></td>
   </tr>
   <tr>
     <td height="380"><ul>
-     <!--fill with php loop.
-     not sure how to link to conversation page-->
+	<form class="form" id="FriendList" name="FriendList" method="POST">
+	<?php
+		$conn  = pg_connect("host=postgres.cise.ufl.edu dbname=kuroko user=htluong password=Fun40xint101r2");
+
+		if (!$conn) { 
+  		echo "Connection failed";
+  		exit;
+		}
+		$query = "SELECT friendList('$_SESSION[uname]')";
+		$result = pg_query($conn, $query);
+		$fList = pg_fetch_all_columns($result, 0);
+		foreach($fList as &$friend)
+		{
+			echo "<input type=submit id=Friend value=" . $friend . "> <br>";
+		}
+		
+	?>
+	</form>
 	</ul></td>
     <td width="513" align="center"><img src="Kuroko/friends-season.jpg" alt="" width="441" height="302" align="right"/></td>
   </tr>
@@ -37,6 +54,7 @@
 </form>
 </body>
 </html>
+
 
 <?php
 include_once "config_def.php";
