@@ -9,9 +9,12 @@
 </head>
 
 <body>
-<div>
-  <h1><?php echo $_SESSION['uname']; ?></h1>
+<div align="right">
+	<form class="form" id="Logout" name="Logout" method="POST">
+		<input name="Logout" type="submit" id="Logout" value="Logout">
+	</form>
 </div>
+<h1><?php echo $_SESSION['uname']; ?></h1>
 
 <table align="center" width="751" height="459">
   <tr>
@@ -116,5 +119,9 @@ else{
 	echo "<p align='center'>Friend Deleted</p>";
 	exit;
 }
+}
+if($_POST['Logout']{
+	session_destroy();
+	header("Location: LoginPage.php");
 }
 ?>
