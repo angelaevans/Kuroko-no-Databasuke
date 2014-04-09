@@ -41,3 +41,4 @@ if($_POST['Logout']){
 	header("Location: LoginPage.php");
 }
 ?>
+

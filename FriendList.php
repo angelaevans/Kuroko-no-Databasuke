@@ -9,13 +9,13 @@
 </head>
 
 <body>
+
 <div align="right">
-	<form class="form" id="Logout" name="Logout" method="POST">
-		<input name="Logout" type="submit" id="Logout" value="Logout">
-	</form>
+  <form class="form" id="Logout" name="Logout" method="POST">
+	<input name="Logout" type="submit" id ="Logout" value="Logout">
+  </form>
 </div>
 <h1><?php echo $_SESSION['uname']; ?></h1>
-
 <table align="center" width="751" height="459">
   <tr>
     <td width="226" height="71"><label id="friend" for="select">Friends:</label></td>
@@ -120,8 +120,8 @@ else{
 	exit;
 }
 }
-if($_POST['Logout']{
-	session_destroy();
-	header("Location: LoginPage.php");
+if($_POST['Logout']){
+session_destroy();
+header("Location: LoginPage.php");
 }
 ?>
