@@ -1,6 +1,13 @@
 @charset "UTF-8";
 /* CSS Document */
+#Logout{
+	font-size: 1em;
+	font-family: "Impact";
+	border-radius: 0px;
+}
+
 h1{
+	margin-top:0;
 	font-family: "Impact";
 	background-color: #30ACFF;
 	font-size: 4em;
