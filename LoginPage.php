@@ -24,9 +24,9 @@
 <?php
 include_once "config_def.php";
 
-$conn  = pg_connect(CONNECTIONINFO);
+$conn = pg_connect(CONNECTIONINFO);
 
-if (!$conn) { 
+if (!$conn) {
   echo "Connection failed";
   exit;
 }
@@ -61,5 +61,4 @@ else{
 }
 }
 ?>
-
 

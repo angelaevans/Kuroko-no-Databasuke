@@ -21,7 +21,6 @@
     <td height="380"><ul>
 	<form class="form" id="FriendList" name="FriendList" method="POST">
 	<?php
-		
 		include_once "config_def.php";
 
 		$conn = pg_connect(CONNECTIONINFO);
@@ -29,7 +28,7 @@
 		  echo "Connection failed";
  		  exit;
 		}	
-
+		
 		$query = "SELECT friendList('$_SESSION[uname]')";
 		$result = pg_query($conn, $query);
 		$fList = pg_fetch_all_columns($result, 0);
@@ -37,14 +36,12 @@
 		{
 			echo "<input name=Friend type=submit id=Friend value=" . $friend . "> <br>";
 		}
-		if($_POST[Friend])
+		if($_POST['Friend'])
 		{
-			$_SESSION = /*Script goes here?*/
+			$_SESSION['fname'] = $_POST['Friend'];
 			header("Location: Conversation.php");
 			exit;
 		}
-
-		
 	?>
 	</form>
 	</ul></td>
@@ -65,12 +62,11 @@
 </body>
 </html>
 
-
 <?php
 include_once "config_def.php";
 
-$conn  = pg_connect(CONNECTIONINFO);
-if (!$conn) { 
+$conn = pg_connect(CONNECTIONINFO);
+if (!$conn) {
   echo "Connection failed";
   exit;
 }
@@ -78,8 +74,7 @@ if (!$conn) {
 if($_POST[AddFriend]){
 $insert = "SELECT Addfriend('$_SESSION[uname]', '$_POST[add]')";
 $result = pg_query($conn, $insert);
-$row = pg_num_rows($result);
-if(row > 1){
+if(result){
 	echo "<p align='center'>Already friends</p>";
 	exit;
 }
@@ -90,9 +85,9 @@ else{
 }
 
 if($_POST[DeleteFriend]){
+
 $del = "SELECT deleteFriend('$_SESSION[uname]', '$_POST[delete]')";
 $result = pg_query($conn, $del);
-$row = pg_num_rows($result);
 if(!result){
 	echo "<p align='center'>Not Friends</p>";
 	exit;
@@ -104,4 +99,3 @@ else{
 }
 //The messages don't output right, but the friends are added/deleted correctly
 ?>
-
