@@ -10,8 +10,8 @@
 
 <body>
 <div align="right">
-  <form class="form" id="Logout" name="Logout" method="POST">
-	<input name="Logout" type="submit" id ="Logout" value="Logout">
+  <form class="form" id="buttona" name="buttons" method="POST">
+	<input name="FriendsList" type="submit" id ="FriendsList" value="FriendsList"><input name="Logout" type="submit" id ="Logout" value="Logout">
   </form>
 </div>
 <h1>Conversation</h1>
@@ -39,6 +39,10 @@
 if($_POST['Logout']){
 	session_destroy();
 	header("Location: LoginPage.php");
+}
+if($_POST['FriendsList']){
+	unset($_SESSION['fname']);
+	header("Location: FriendList.php");
 }
 ?>
 
