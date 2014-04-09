@@ -74,11 +74,12 @@ if (!$conn) {
 if($_POST[AddFriend]){
 $insert = "SELECT Addfriend('$_SESSION[uname]', '$_POST[add]')";
 $result = pg_query($conn, $insert);
-if(result){
+if(!result){
 	echo "<p align='center'>Already friends</p>";
 	exit;
 }
 else{
+	$_SESSION['fname'] = $_POST[add];
 	header("Location: Conversation.php");
 	exit;
 }
