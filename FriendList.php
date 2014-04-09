@@ -72,10 +72,19 @@ if (!$conn) {
 }
 
 if($_POST[AddFriend]){
+$query0 = "SELECT count(conid) FROM Conversation";
+$result0 = pg_query($conn, $query0);
+$preCount = pg_fetch_row($result0);
+
 $insert = "SELECT Addfriend('$_SESSION[uname]', '$_POST[add]')";
 $result = pg_query($conn, $insert);
-if(!result){
-	echo "<p align='center'>Already friends</p>";
+
+$query1 = "SELECT count(conid) FROM Conversation";
+$result1 = pg_query($conn, $query1);
+$postCount = pg_fetch_row($result1);
+
+if($postCount[0] == $preCount[0]){
+	echo "<p align='center'>Already Friends or Username Does Not Exist</p>";
 	exit;
 }
 else{
@@ -86,14 +95,24 @@ else{
 }
 
 if($_POST[DeleteFriend]){
+$query0 = "SELECT count(conid) FROM Conversation";
+$result0 = pg_query($conn, $query0);
+$preCount = pg_fetch_row($result0);
 
-$del = "SELECT deleteFriend('$_SESSION[uname]', '$_POST[delete]')";
-$result = pg_query($conn, $del);
-if(!result){
+$query1 = "SELECT deleteFriend('$_SESSION[uname]', '$_POST[delete]')";
+$delete = pg_query($conn, $query1);
+
+$query2 = "SELECT count(conid) FROM Conversation";
+$result1 = pg_query($conn, $query2);
+$postCount = pg_fetch_row($result1);
+ 
+if($postCount[0] == $preCount[0]){
 	echo "<p align='center'>Not Friends</p>";
 	exit;
 }
 else{
+	$page = $_SERVER['PHP_SELF'];
+	header("Refresh:0; url=$page");
 	echo "<p align='center'>Friend Deleted</p>";
 	exit;
 }
