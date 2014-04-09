@@ -16,10 +16,26 @@ h1{
 	font-size: 2.5em;
 }
 
-ul{
-	overflow: auto;
+#friendbox{
+	padding: 5px 0px 5px 0px;
+	border-style:solid;
+	border-width:5px;
+}
+
+#Friend{
+	color: black;
+	background: none;
+	border: 0;
 	font-size: 1.5em;
-	width: 8em;
-	height: 14em;
-	border: 2px solid #00CC00;
+}
+input[type=submit] {
+	font-size: 1.2em;
+	background: none;
+    border-radius: 5px;
+    border: 0;
+    font-family: Tahoma;
+}
+#table{
+	border-radius: 5px;
+	border: .05em solid #FFFFFF;
 }

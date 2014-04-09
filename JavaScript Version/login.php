@@ -1,6 +1,5 @@
 #!/usr/local/bin/php
 <!doctype html>
-<?php session_start();?>
 <html>
 <head>
     <link type="text/css" rel="stylesheet" href="css/stylesheet.css" />
@@ -8,7 +7,6 @@
     <script type="text/JavaScript" src="js/js_functions.js"></script> 
     <title>Kuroko no Databasuke</title>
 </head>
-
 <body>
 <div align="center"><img src="Kuroko/KurokoNoDatabasuke.jpg" alt="Kuroko no Databasuke" /></div>
     <p align="center">
@@ -22,13 +20,26 @@
                 type="submit" 
                 id="Login" 
                 value="Login!"
-                onClick="javascript:login();">
+                onClick="javascript:checklogin();">
 
       <input    name="NewUser" 
                 type="submit" 
                 id="NewUser" 
                 value="New User!"
-                onClick="javascript:register();">
+                onClick="javascript:checkregister();">
+
+
+
+
+        <input  name="dev" 
+                type="submit" 
+                id="dev" 
+                value="dev"
+                onClick="javascript:dev();">
+
+
+
+
     </p>
 <div align="center" id="status"></div>
 <br />
