@@ -91,3 +91,6 @@ $body$
 	SELECT username 	FROM Users 	WHERE userID IN 		(SELECT friendID 		FROM Users, Conversation 		WHERE Conversation.userID = (SELECT usernametoid(uname))) 
 $body$ 
 LANGUAGE sql;
+
+-- CHecks if they're friends and returns the FIRST conversation that proves it true
+CREATE OR REPLACE FUNCTION aretheyfriends(uname text, fname text) RETURNS BOOLEAN AS $aretheyfriends$ DECLARE uid int; fid int; BEGIN	Select usernametoid(uname) into uid; Select usernametoid(fname) into fid; PERFORM conID FROM conversation WHERE (userID=uid AND friendID=fid) OR (userID=fid AND friendID=uid) LIMIT 1; IF FOUND THEN RETURN TRUE; END IF; RETURN FALSE; END; $aretheyfriends$ LANGUAGE plpgsql;
