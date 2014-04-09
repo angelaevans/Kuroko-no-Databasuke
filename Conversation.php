@@ -10,7 +10,7 @@
 
 <body>
 <div align="right">
-  <form class="form" id="buttona" name="buttons" method="POST">
+  <form class="form" id="buttons" name="buttons" method="POST">
 	<input name="FriendsList" type="submit" id ="FriendsList" value="FriendsList"><input name="Logout" type="submit" id ="Logout" value="Logout">
   </form>
 </div>
@@ -28,11 +28,14 @@
   </table>
 </div>
 <p align="center">Send New Picture:</p>
+<form class="form" id="Pictures" name="Pictures" method="POST">
 <p align="center">
   <label for="textfield">	Image Path:</label>
-  <input type="text" name="textfield" id="textfield">
-  <input name="PictureSelect" type="button" id="PictureSelect" value="Picture Select">
+  <input type="text" name="textfield" id="textfield" placeholder="Image URL">
+  <input name="PictureSelect" type="submit" id="PictureSelect" value="Picture Select">
 </p>
+<p align="center"><input name="PostPicture" type="submit" id="PostPicture" value="Send Message!"><p>
+</form>
 </body>
 </html>
 <?php
@@ -45,4 +48,3 @@ if($_POST['FriendsList']){
 	header("Location: FriendList.php");
 }
 ?>
-
