@@ -30,7 +30,7 @@
 			<input type="submit" name="AddFriend" id="AddFriend" value="Add Friend" onClick="javascript:checkAddFriend();">
 			<br />
 			<input type="text" name="delete" id="DeleteFriendtextfield" placeholder="Friend's Username">
-			<input type="submit" name="DeleteFriend" id="DeleteFriend" value="Delete Friend">
+			<input type="submit" name="DeleteFriend" id="DeleteFriend" value="Delete Friend" onClick="javascript:checkDeleteFriend();">
 			<div align="center" id="status"></div>
 		</div>
 	</td>
