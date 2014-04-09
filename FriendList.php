@@ -117,5 +117,3 @@ else{
 	exit;
 }
 }
-//The messages don't output right, but the friends are added/deleted correctly
-?>
