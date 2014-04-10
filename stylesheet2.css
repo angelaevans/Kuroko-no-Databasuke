@@ -26,4 +26,11 @@ h1{
 
 td{
 	background-color: #FCFAFA;
+	max-width: 407px !important;
+	max-height: 314px !important;
+}
+
+img{
+	max-width: 407px !important;
+	max-height: 314px !important;
 }
