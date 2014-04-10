@@ -48,4 +48,3 @@ if($_POST['FriendsList']){
 	header("Location: FriendList.php");
 }
 ?>
-

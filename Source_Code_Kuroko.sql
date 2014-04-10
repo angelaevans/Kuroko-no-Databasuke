@@ -94,3 +94,6 @@ LANGUAGE sql;
 
 -- CHecks if they're friends and returns the FIRST conversation that proves it true
 CREATE OR REPLACE FUNCTION aretheyfriends(uname text, fname text) RETURNS BOOLEAN AS $aretheyfriends$ DECLARE uid int; fid int; BEGIN	Select usernametoid(uname) into uid; Select usernametoid(fname) into fid; PERFORM conID FROM conversation WHERE (userID=uid AND friendID=fid) OR (userID=fid AND friendID=uid) LIMIT 1; IF FOUND THEN RETURN TRUE; END IF; RETURN FALSE; END; $aretheyfriends$ LANGUAGE plpgsql;
+
+-- Finds a conversation and returns the sendmessage's picid
+CREATE OR REPLACE FUNCTION getpicidfromConversation(username text, friendname text) RETURNS SETOF integer AS $getpicidfromConversation$ DECLARE	mainuser int; friend int; BEGIN Select usernametoid(username) into mainuser; Select usernametoid(friendname) into friend; RETURN QUERY SELECT sentMessage FROM conversation WHERE (userID=mainuser AND friendID=friend);  end; $getpicidfromConversation$ LANGUAGE plpgsql;
