@@ -218,6 +218,9 @@ function loadfriends(){
 
             // parses the string so now it's a javascript array
             var jsonobject = JSON.parse(return_data);
+	    
+            // Sorts your friends list
+	    jsonobject.sort();
 
             // grabs the location of where we're going to dump the friends list
             var listbox = document.getElementById('friendbox');
@@ -228,7 +231,7 @@ function loadfriends(){
             }
 
             // loops through all the friends
-            for (var i = 0; i < jsonobject.length - 1; i++) {
+            for (var i = 0; i < jsonobject.length; i++) {
                   
                   // with each friend we make a new div element
                   var friend = document.createElement('div');
@@ -259,12 +262,17 @@ function loadfriends(){
 function openconversation(user){
  	// in the meantime HI
     alert("Hi "+user);
+    
 }
 
 // called when the Add Friend button is clicked
 function checkAddFriend(){
-	// grabs the user input
+    // grabs the user input
     var friend = document.getElementById("AddFriendtextfield").value;
+   
+    // clears the input text field 
+    document.getElementById("AddFriendtextfield").value = '';
+
     // checks if anything was submited
     if (friend.length > 0){
         // checks if it is at least 3 character (just because)
@@ -285,18 +293,59 @@ function checkAddFriend(){
 
 }
 
-// also haven't done this yet. but plan is this needs to a XMLHttpRequest to a php file. which would check if they're friends.
-// probably make 1= added, 0=user doesn't exist, and -1= failed you're already friends 
-// aftering adding, we can refresh the friends list
+//Attempts to add this as friends by calling addfriend.php
 function AddFriend(friend){
-    alert("Hi "+ friend);
+    // Creates a XMLHttpRequest object
+    var httpRequest = new XMLHttpRequest();
+    
+    // variables for our PHP file
+    var urlstub = "php/addfriend.php";
+    var varstub = "friendname="+friend;
+    httpRequest.open("POST", urlstub, true);
+
+    // Set content type header information for sending url encoded variables in the request
+    // Have no idea what this means. it was on the tutorial I watched
+    httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+   // Access the onreadystatechange event for the XMLHttpRequest object
+    // This is ASYNCHRONOUS BTW. what this does is when we do get a response back from the database (because it takes time)
+    // then run this code. in the meantime, run the code after. This is why we see processing.... on the page before an actually useful message.
+    httpRequest.onreadystatechange = function() {
+        // "httpRequest.readyState == 4 && httpRequest.status == 200" means that it worked
+        if(httpRequest.readyState == 4 && httpRequest.status == 200) {
+            var return_data = httpRequest.responseText;
+	    // 1= added, 0=user doesn't exist, and -1= failed you're already friends 
+	    if (return_data == 1){
+	    	loadfriends();
+            	document.getElementById("status").innerHTML = "New Friend added :3"; 	
+	    }
+	    else if(return_data == 0){
+            	document.getElementById("status").innerHTML = "Username does not exist"; 		
+	    }
+	    else{
+            	document.getElementById("status").innerHTML = "You're already friends"; 		
+	    }
+	}
+        // nothing came back so error out?
+        else{
+            document.getElementById("status").innerHTML = "Failed to load";
+	}       
+    };
+
+    // Send the data to PHP now... and wait for response to update the status div
+    httpRequest.send(varstub);
+    
 }
 
 // this is actually just broken. I stopped before I finished debugging.
 // called when the delete Friend button is clicked.
 function checkDeleteFriend(){
-	// grabs the user input
+    // grabs the user input
     var friend = document.getElementById("DeleteFriendtextfield").value;
+
+    // clears the input text field 
+    document.getElementById("DeleteFriendtextfield").value = '';
+
     // checks if anything was submited
     if (friend.length > 0){
         // checks if it is at least 3 character (just because)
@@ -317,9 +366,46 @@ function checkDeleteFriend(){
 
 }
 
-// also haven't done this yet. but plan is this needs to a XMLHttpRequest to a php file. which would check if they're friends.
-// probably make 1= deleted, 0 = user doesn't exist, and -1= failed you're already not friends 
-// aftering deleting, we can refresh the friends list
+// attempts to delete two friends by calling deletefriend.php
 function DeleteFriend(friend){
-    alert("bye "+ friend);
+    // Creates a XMLHttpRequest object
+    var httpRequest = new XMLHttpRequest();
+    
+    // variables for our PHP file
+    var urlstub = "php/deletefriend.php";
+    var varstub = "friendname="+friend;
+    httpRequest.open("POST", urlstub, true);
+
+    // Set content type header information for sending url encoded variables in the request
+    // Have no idea what this means. it was on the tutorial I watched
+    httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+   // Access the onreadystatechange event for the XMLHttpRequest object
+    // This is ASYNCHRONOUS BTW. what this does is when we do get a response back from the database (because it takes time)
+    // then run this code. in the meantime, run the code after. This is why we see processing.... on the page before an actually useful message.
+    httpRequest.onreadystatechange = function() {
+        // "httpRequest.readyState == 4 && httpRequest.status == 200" means that it worked
+        if(httpRequest.readyState == 4 && httpRequest.status == 200) {
+            var return_data = httpRequest.responseText;
+	    // 1= deleted, 0 = user doesn't exist, and -1= failed you're already not friends 
+	    if (return_data == 1){
+	    	loadfriends();
+            	document.getElementById("status").innerHTML = "Friend Deleted :("; 	
+	    }
+	    else if(return_data == 0){
+            	document.getElementById("status").innerHTML = "Username does not exist"; 		
+	    }
+	    else{
+            	document.getElementById("status").innerHTML = "You were never friends"; 		
+	    }
+	}
+        // nothing came back so error out?
+        else{
+            document.getElementById("status").innerHTML = "Failed to load";
+	}       
+    };
+
+    // Send the data to PHP now... and wait for response to update the status div
+    httpRequest.send(varstub);
+    
 }

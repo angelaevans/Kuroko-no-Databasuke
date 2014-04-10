@@ -23,8 +23,8 @@ if($row == 1){
 	$result = pg_query($conn, $test);
 	$row = pg_fetch_row($result);
 
-	if($row[0] == "f"){
-		$insert = "SELECT Addfriend('".$user."','".$friend."')";
+	if($row[0] == "t"){
+		$insert = "SELECT deleteFriend('".$user."','".$friend."')";
 		$result = pg_query($conn, $insert);
 		echo 1;
 	}
