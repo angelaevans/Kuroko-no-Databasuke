@@ -68,6 +68,15 @@
 </body>
 </html>
 <?php
+include_once "config_def.php";
+
+$conn = pg_connect(CONNECTIONINFO);
+
+if (!$conn) {
+  echo "Connection failed";
+  exit;
+}
+
 if($_POST['Logout']){
 	session_destroy();
 	header("Location: LoginPage.php");
@@ -76,15 +85,10 @@ if($_POST['FriendsList']){
 	unset($_SESSION['fname']);
 	header("Location: FriendList.php");
 }
-if($_POST['PostPicture']){
-include_once "config_def.php";
-
-$conn = pg_connect(CONNECTIONINFO);
-
-if (!$conn) {
-  echo "Connection failed";
-  exit;
-}	
+if($_POST['PictureSelect']){
+	header("Location: Pictures.php");
+}
+if($_POST['PostPicture']){	
 	$address = $_POST['url'];
 	$query= "SELECT Sendnewmessage('".$_SESSION['uname']."', '".$_SESSION['fname']."', ".$address.")";
 	$result = pg_query($conn, $query); 

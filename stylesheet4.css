@@ -1,10 +1,6 @@
 @charset "UTF-8";
 /* CSS Document */
-table{
-	overflow: auto;
-}
-
-div{
-	height="500";
-	width="500";	
+img{
+	max-width: 407px !important;
+	max-height: 314px !important;
 }
