@@ -19,11 +19,40 @@
   <table width="831" id="table">
     <tr>
       <td width="407"><?php echo $_SESSION['uname']; ?></td>
-      <td width="408"><?php echo $_SESSION['fname']; ?></td>
+      <td width="407"><?php echo $_SESSION['fname']; ?></td>
     </tr>
     <tr>
-      <td height="314">Message from User</td>
-      <td>Message from Friend</td>
+      <td height="314" align="center">
+	<?php
+	include_once "config_def.php";
+
+	$conn = pg_connect(CONNECTIONINFO);
+
+	if (!$conn) {
+	  echo "Connection failed";
+	  exit;
+	}
+	$query = "SELECT picPath FROM Pictures WHERE picID = (SELECT getpicidfromConversation('".$_SESSION['uname']."', '".$_SESSION['fname']."'))";	$result = pg_query($conn, $query);
+	$row = pg_fetch_row($result);
+	$_SESSION['pic'] = $row[0];
+	echo "<img src=". $_SESSION['pic'] . " />" ?>
+	</td>
+      <td height="314" align="center">
+	<?php
+	include_once "config_def.php";
+
+	$conn = pg_connect(CONNECTIONINFO);
+
+	if (!$conn) {
+	  echo "Connection failed";
+	  exit;
+	}
+	$query = "SELECT picPath FROM Pictures WHERE picID = (SELECT getpicidfromConversation('".$_SESSION['fname']."', '".$_SESSION['uname']."'))";
+	$result = pg_query($conn, $query);
+	$row = pg_fetch_row($result);
+	$_SESSION['pic'] = $row[0];
+	echo "<img src=". $_SESSION['pic'] . " />" ?>
+	</td>
     </tr>
   </table>
 </div>
@@ -31,7 +60,7 @@
 <form class="form" id="Pictures" name="Pictures" method="POST">
 <p align="center">
   <label for="textfield">	Image Path:</label>
-  <input type="text" name="textfield" id="textfield" placeholder="Image URL">
+  <input type="text" name="url" id="textfield" placeholder="Image Number">
   <input name="PictureSelect" type="submit" id="PictureSelect" value="Picture Select">
 </p>
 <p align="center"><input name="PostPicture" type="submit" id="PostPicture" value="Send Message!"><p>
@@ -47,4 +76,20 @@ if($_POST['FriendsList']){
 	unset($_SESSION['fname']);
 	header("Location: FriendList.php");
 }
+if($_POST['PostPicture']){
+include_once "config_def.php";
+
+$conn = pg_connect(CONNECTIONINFO);
+
+if (!$conn) {
+  echo "Connection failed";
+  exit;
+}	
+	$address = $_POST['url'];
+	$query= "SELECT Sendnewmessage('".$_SESSION['uname']."', '".$_SESSION['fname']."', ".$address.")";
+	$result = pg_query($conn, $query); 
+	$page = $_SERVER['PHP_SELF'];
+	header("Refresh: 0, url=$page");
+}
 ?>
+
