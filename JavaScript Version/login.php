@@ -27,19 +27,6 @@
                 id="NewUser" 
                 value="New User!"
                 onClick="javascript:checkregister();">
-
-
-
-
-        <input  name="dev" 
-                type="submit" 
-                id="dev" 
-                value="dev"
-                onClick="javascript:dev();">
-
-
-
-
     </p>
 <div align="center" id="status"></div>
 <br />
