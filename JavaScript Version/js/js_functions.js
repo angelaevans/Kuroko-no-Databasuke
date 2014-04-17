@@ -1,62 +1,3 @@
-//only purpose of dev() and devlogin() is so that I could host both version of friends.php(my version) and FriendsList.php (steven's version)
-// probably should be removed otherwise
-
-function dev(){
-    // grabs the user input
-    var user = document.getElementById("Usernameinput").value;
-    // checks if anything was submited
-    if (user.length > 0){
-        // attmpts to log in
-        devlogin(user);
-    }
-    // otherwise output error
-    else{
-        document.getElementById("status").innerHTML = "No Username Entered";
-    }
-}
-
-function devlogin(user){
-    // Creates a XMLHttpRequest object
-    var httpRequest = new XMLHttpRequest();
-
-    // variables for our PHP file
-    var urlstub = "php/checklogin.php";
-    var varstub = "username="+user;
-
-    httpRequest.open("POST", urlstub, true);
-
-    // Set content type header information for sending url encoded variables in the request
-    httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-    // Access the onreadystatechange event for the XMLHttpRequest object
-    httpRequest.onreadystatechange = function() {
-        // "httpRequest.readyState == 4 && httpRequest.status == 200" means that it worked
-        if(httpRequest.readyState == 4 && httpRequest.status == 200) {
-            var return_data = httpRequest.responseText;
-            // php returned true so go to friend.php
-            if (return_data == 1){
-                document.getElementById("status").innerHTML = "Logging in";
-                window.location.href = 'friends.php';
-            }
-            // php returned false so user didn't exist
-            else{
-                document.getElementById("status").innerHTML = "Username does not exist";
-            }
-        }
-        else{
-            document.getElementById("status").innerHTML = "Failed. Try again.";
-        }
-    };
-
-    // Send the data to PHP now... and wait for response to update the status div
-    httpRequest.send(varstub);
-    // while waiting, display processing
-    document.getElementById("status").innerHTML = "processing....";
-}
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 // called when the login button is clicked
 function checklogin(){
     // grabs the user input
@@ -99,7 +40,7 @@ function login(user){
             // php returned true so display a message and go to friend.php
             if (return_data == 1){
                 document.getElementById("status").innerHTML = "Logging in";
-                window.location.href = 'FriendsList.php';
+                window.location.href = 'friends.php';
             }
             // php returned false so user didn't exist
             else{
@@ -185,6 +126,10 @@ function register(user){
     document.getElementById("status").innerHTML = "processing...";
 }
 
+function firstload(){
+    loadfriends();
+
+}
 
 // this method is called automaticlly in the <body> of friends.php as a onload event
 // it should also be called whenever we want to refresh the friends list
@@ -231,7 +176,7 @@ function loadfriends(){
             }
 
             // loops through all the friends
-            for (var i = 0; i < jsonobject.length; i++) {
+            for (var i = 1; i < jsonobject.length; i++) {
                   
                   // with each friend we make a new div element
                   var friend = document.createElement('div');
@@ -239,8 +184,7 @@ function loadfriends(){
                   friend.setAttribute('id','Friend');
                   // and then make it a button with each button having the name of the friend and an onclick link to
                   // the open conversation function with their name as a parameter.
-                  friend.innerHTML = "<input name=Friend type=submit value=" + jsonobject[i] + " onClick=\"javascript:openconversation('"+jsonobject[i]+"');\"> <br>";
-
+		  friend.innerHTML = "<input name=Friend type=submit value=" + jsonobject[i] + " onClick=\"javascript:openconversation('"+jsonobject[i]+"');\"> <br>";
                   // adds them to our friend box
                   listbox.appendChild(friend);
             };
@@ -408,4 +352,38 @@ function DeleteFriend(friend){
     // Send the data to PHP now... and wait for response to update the status div
     httpRequest.send(varstub);
     
+}
+
+function logout(){
+    // Creates a XMLHttpRequest object
+    var httpRequest = new XMLHttpRequest();
+    
+    // variables for our PHP file
+    var urlstub = "php/logout.php";
+    var varstub = "";
+    httpRequest.open("POST", urlstub, true);
+
+    // Set content type header information for sending url encoded variables in the request
+    // Have no idea what this means. it was on the tutorial I watched
+    httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+   // Access the onreadystatechange event for the XMLHttpRequest object
+    // This is ASYNCHRONOUS BTW. what this does is when we do get a response back from the database (because it takes time)
+    // then run this code. in the meantime, run the code after. This is why we see processing.... on the page before an actually useful message.
+    httpRequest.onreadystatechange = function() {
+        // "httpRequest.readyState == 4 && httpRequest.status == 200" means that it worked
+        if(httpRequest.readyState == 4 && httpRequest.status == 200) { 
+            document.getElementById("status").innerHTML = "Yay";
+            window.location.href = 'login.php';
+ 
+	}
+        // nothing came back so error out?
+        else{
+            document.getElementById("status").innerHTML = "Failed";
+	}       
+    };
+
+    // Send the data to PHP now... and wait for response to update the status div
+    httpRequest.send(varstub);
+    document.getElementById("status").innerHTML = "Logging out";
 }

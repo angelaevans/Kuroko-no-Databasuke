@@ -4,17 +4,22 @@ h1{
 	font-family: "Impact";
 	background-color: #30ACFF;
 	font-size: 4em;
+	line-height: normal;
+	margin: 0; 
+  	padding: 0; 
 }
 
 #friend{	
-	font-size: 3.5em;
+	font-size: 3em;
 	font-family: "Impact";
 	color: #FF1919;
+	padding: 0; 
 }
 
 #friendlist{
 	font-size: 2.5em;
 }
+
 
 #friendbox{
 	padding: 5px 0px 5px 0px;

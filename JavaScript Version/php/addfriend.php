@@ -9,7 +9,7 @@ if (!$conn) {
 }
 session_start();
 
-$user = $_SESSION['uname'];
+$user = $_SESSION['username'];
 $friend = $_POST['friendname'];
 
 

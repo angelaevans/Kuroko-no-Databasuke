@@ -12,7 +12,7 @@ if (!$conn) {
 
 session_start();
 $username = $_POST['username'];
-$_SESSION['uname'] = $username;
+$_SESSION['username'] = $username;
 
 
 $query = "SELECT userid FROM Users WHERE username = '".$username."'";

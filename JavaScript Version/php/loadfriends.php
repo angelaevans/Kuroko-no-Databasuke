@@ -10,7 +10,7 @@
 		exit;
 	}	
 
-	$username = $_SESSION['uname'];
+	$username = $_SESSION['username'];
 
 	$query = "SELECT friendList('".$username."')";
 	$result = pg_query($conn, $query);
