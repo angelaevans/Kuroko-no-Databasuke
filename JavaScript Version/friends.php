@@ -9,7 +9,7 @@
 	<script type="text/JavaScript" src="js/js_functions.js"></script> 
 </head>
 
-<body onload="loadfriends()">
+<body onload="firstload()">
   <h1><?php echo $_SESSION['username']; ?></h1>
 
 <table width="100%" height="66%">
