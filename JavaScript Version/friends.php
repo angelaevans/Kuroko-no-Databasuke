@@ -10,7 +10,10 @@
 </head>
 
 <body onload="firstload()">
+<<<<<<< HEAD
 	<input name="Logout" type="submit" id ="Logout" value=" [ Logout ] " onClick="javascript:logout();">
+=======
+>>>>>>> fef51a87dd0ef5aa3de6211af91bdc4b60237768
   <h1><?php echo $_SESSION['username']; ?></h1>
 
 <table width="100%" height="66%">
