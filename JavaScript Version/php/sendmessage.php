@@ -13,11 +13,32 @@ if (!$conn) {
 
 $picid = $_POST['picid'];
 $username = $_SESSION['username'];
-//$friendname = $_SESSION['friendname'];
+$friendname = $_SESSION['friendname'];
 
-//$query= "SELECT Sendnewmessage('".$username."', '".$friendname."', ".$picid.")";
-//$query= "SELECT Sendnewmessage('".$username."', 'Huy', ".$picid.")";
+$query = "SELECT userid FROM Users WHERE username = '".$friendname."'";
+$result = pg_query($conn, $query);
 
-//$result = pg_query($conn, $query);
+$row = pg_num_rows($result);
+
+if($row == 1){
+        $test = "SELECT aretheyfriends('".$username."','".$friendname."')";
+        $result = pg_query($conn, $test);
+        $row = pg_fetch_row($result);
+
+        if($row[0] == "t"){
+		$query= "SELECT Sendnewmessage('".$username."', '".$friendname."', ".$picid.")";
+                $result = pg_query($conn, $query);
+                echo 1;
+        }
+        else{
+                echo -1;
+        }
+}
+else{
+        echo 0;
+}
+
+
+
 
 ?>

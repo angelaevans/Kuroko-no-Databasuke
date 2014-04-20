@@ -35,7 +35,7 @@ function login(user){
     httpRequest.onreadystatechange = function() {
         // "httpRequest.readyState == 4 && httpRequest.status == 200" means that it worked we got a response period
         if(httpRequest.readyState == 4 && httpRequest.status == 200) {
-        	// since this is the login method, the php checks in the user exists. if yes then we can log, if no then error message
+            // since this is the login method, the php checks in the user exists. if yes then we can log, if no then error message
             var return_data = httpRequest.responseText;
             // php returned true so display a message and go to friend.php
             if (return_data == 1){
@@ -61,16 +61,16 @@ function login(user){
 
 // called when the new user button is clicked
 function checkregister(){
-	// grabs the user input
+    // grabs the user input
     var user = document.getElementById("Usernameinput").value;
     // checks if anything was submited
     if (user.length > 0){
-    	// checks if it is at least 3 character (just because)
+        // checks if it is at least 3 character (just because)
         if(user.length > 2){
-        	//attemps to register
+            //attemps to register
             register(user);
         }
-      	// otherwise output error
+        // otherwise output error
         else{
             document.getElementById("status").innerHTML = "Please enter more then 2 characters";
         }
@@ -103,7 +103,7 @@ function register(user){
     httpRequest.onreadystatechange = function() {
         // "httpRequest.readyState == 4 && httpRequest.status == 200" means that it worked we got a response period
         if(httpRequest.readyState == 4 && httpRequest.status == 200) {
-        	// since this is the register method, the php checks in the user exists. if yes then we registered successfully, otherwise boo!
+            // since this is the register method, the php checks in the user exists. if yes then we registered successfully, otherwise boo!
             var return_data = httpRequest.responseText;
             // php returned true so no one has the name, we're good to go
             if (return_data == 1){
@@ -128,8 +128,11 @@ function register(user){
 
 function firstload(){
     loadfriends();
-	firstconversation();
+    firstconversation();
+    loadpicture();
+
 }
+
 
 // this method is called automaticlly in the <body> of friends.php as a onload event
 // it should also be called whenever we want to refresh the friends list
@@ -152,10 +155,10 @@ function loadfriends(){
     httpRequest.onreadystatechange = function() {
         // "httpRequest.readyState == 4 && httpRequest.status == 200" means that it worked
         if(httpRequest.readyState == 4 && httpRequest.status == 200) {
-        	// ok so here's the deal. when the php is successful then we get returned a josn array of names.
-        	// these are the friends of the current user.
+            // ok so here's the deal. when the php is successful then we get returned a josn array of names.
+            // these are the friends of the current user.
 
-        	// first we clear the friend box which other wise will say Failed to load
+            // first we clear the friend box which other wise will say Failed to load
             document.getElementById("friendbox").innerHTML = "";
 
             // takes the responseText which is the return value. this will be a json string
@@ -163,9 +166,9 @@ function loadfriends(){
 
             // parses the string so now it's a javascript array
             var jsonobject = JSON.parse(return_data);
-	    
+        
             // Sorts your friends list
-			jsonobject.sort();
+        jsonobject.sort();
 
             // grabs the location of where we're going to dump the friends list
             var listbox = document.getElementById('friendbox');
@@ -184,7 +187,7 @@ function loadfriends(){
                   friend.setAttribute('id','Friend');
                   // and then make it a button with each button having the name of the friend and an onclick link to
                   // the open conversation function with their name as a parameter.
-		  friend.innerHTML = "<input name=Friend type=submit value=" + jsonobject[i] + " onClick=\"javascript:openconversation('"+jsonobject[i]+"');\"> <br>";
+                  friend.innerHTML = "<input name=Friend type=submit value=" + jsonobject[i] + " onClick=\"javascript:openconversation('"+jsonobject[i]+"');\"> <br>";
                   // adds them to our friend box
                   listbox.appendChild(friend);
             };
@@ -215,8 +218,8 @@ function firstconversation(){
     httpRequest.onreadystatechange = function() {
 
         if(httpRequest.readyState == 4 && httpRequest.status == 200) {
-			var return_data = httpRequest.responseText;
-			document.getElementById("friendname").innerHTML = return_data;
+            var return_data = httpRequest.responseText;
+            document.getElementById("friendname").innerHTML = return_data;
             document.getElementById("status").innerHTML = "";
         }
         // nothing came back so error out?
@@ -232,8 +235,8 @@ function firstconversation(){
 
 //calls both sides of the conversation update
 function openconversation(user){
-	openuserconversation(user);
-	openfriendconversation(user);
+    openuserconversation(user);
+    openfriendconversation(user);
 }
 
 //Will open the image in the user side of the conversation
@@ -254,7 +257,7 @@ function openuserconversation(user){
             var return_data = httpRequest.responseText;
             
                 document.getElementById("userconversation").innerHTML = "<img src="+return_data+">";
-				document.getElementById("status").innerHTML = "";
+                document.getElementById("status").innerHTML = "";
         }
 
         else{
@@ -282,9 +285,9 @@ function openfriendconversation(user){
         if(httpRequest.readyState == 4 && httpRequest.status == 200) {
 
             var return_data = httpRequest.responseText;
-				document.getElementById("friendname").innerHTML = user;
+                document.getElementById("friendname").innerHTML = user;
                 document.getElementById("friendconversation").innerHTML = "<img src="+return_data+">";
-				document.getElementById("status").innerHTML = "";
+                document.getElementById("status").innerHTML = "";
         }
 
         else{
@@ -308,7 +311,7 @@ function checkAddFriend(){
     if (friend.length > 0){
         // checks if it is at least 3 character (just because)
         if(friend.length > 2){
-        	// attempts to add them as a friend
+            // attempts to add them as a friend
             AddFriend(friend);
             document.getElementById("status").innerHTML = "";
         }
@@ -345,22 +348,22 @@ function AddFriend(friend){
         // "httpRequest.readyState == 4 && httpRequest.status == 200" means that it worked
         if(httpRequest.readyState == 4 && httpRequest.status == 200) {
             var return_data = httpRequest.responseText;
-	    // 1= added, 0=user doesn't exist, and -1= failed you're already friends 
-	    if (return_data == 1){
-	    	loadfriends();
-            	document.getElementById("status").innerHTML = "New Friend added :3"; 	
-	    }
-	    else if(return_data == 0){
-            	document.getElementById("status").innerHTML = "Username does not exist"; 		
-	    }
-	    else{
-            	document.getElementById("status").innerHTML = "You're already friends"; 		
-	    }
-	}
+        // 1= added, 0=user doesn't exist, and -1= failed you're already friends 
+        if (return_data == 1){
+            loadfriends();
+                document.getElementById("status").innerHTML = "New Friend added :3";    
+        }
+        else if(return_data == 0){
+                document.getElementById("status").innerHTML = "Username does not exist";        
+        }
+        else{
+                document.getElementById("status").innerHTML = "You're already friends";         
+        }
+    }
         // nothing came back so error out?
         else{
             document.getElementById("status").innerHTML = "Failed to load";
-	}       
+    }       
     };
 
     // Send the data to PHP now... and wait for response to update the status div
@@ -381,7 +384,7 @@ function checkDeleteFriend(){
     if (friend.length > 0){
         // checks if it is at least 3 character (just because)
         if(friend.length > 2){
-        	//attempts to delete
+            //attempts to delete
             DeleteFriend(friend);
             document.getElementById("status").innerHTML = "";
         }
@@ -418,22 +421,22 @@ function DeleteFriend(friend){
         // "httpRequest.readyState == 4 && httpRequest.status == 200" means that it worked
         if(httpRequest.readyState == 4 && httpRequest.status == 200) {
             var return_data = httpRequest.responseText;
-	    // 1= deleted, 0 = user doesn't exist, and -1= failed you're already not friends 
-	    if (return_data == 1){
-	    	loadfriends();
-            	document.getElementById("status").innerHTML = "Friend Deleted :("; 	
-	    }
-	    else if(return_data == 0){
-            	document.getElementById("status").innerHTML = "Username does not exist"; 		
-	    }
-	    else{
-            	document.getElementById("status").innerHTML = "You were never friends"; 		
-	    }
-	}
+        // 1= deleted, 0 = user doesn't exist, and -1= failed you're already not friends 
+        if (return_data == 1){
+            loadfriends();
+                document.getElementById("status").innerHTML = "Friend Deleted :(";  
+        }
+        else if(return_data == 0){
+                document.getElementById("status").innerHTML = "Username does not exist";        
+        }
+        else{
+                document.getElementById("status").innerHTML = "You were never friends";         
+        }
+    }
         // nothing came back so error out?
         else{
             document.getElementById("status").innerHTML = "Failed to load";
-	}       
+    }       
     };
 
     // Send the data to PHP now... and wait for response to update the status div
@@ -462,15 +465,241 @@ function logout(){
         if(httpRequest.readyState == 4 && httpRequest.status == 200) { 
             document.getElementById("status").innerHTML = "Yay";
             window.location.href = 'login.php';
-			window.clearInterval(timerRefresh());
-	}
+            window.clearInterval(timerRefresh());
+ 
+    }
         // nothing came back so error out?
         else{
             document.getElementById("status").innerHTML = "Failed";
-	}       
+    }       
     };
 
     // Send the data to PHP now... and wait for response to update the status div
     httpRequest.send(varstub);
     document.getElementById("status").innerHTML = "Logging out";
 }
+
+
+function loadpicture(){
+    // Creates a XMLHttpRequest object
+    var httpRequest = new XMLHttpRequest();
+    
+    // variables for our PHP file
+    var urlstub = "php/loadpicturepage.php";
+    var varstub = "";
+    httpRequest.open("POST", urlstub, true);
+
+    // Set content type header information for sending url encoded variables in the request
+    // Have no idea what this means. it was on the tutorial I watched
+    httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+   // Access the onreadystatechange event for the XMLHttpRequest object
+    // This is ASYNCHRONOUS BTW. what this does is when we do get a response back from the database (because it takes time)
+    // then run this code. in the meantime, run the code after. This is why we see processing.... on the page before an actually useful message.
+    httpRequest.onreadystatechange = function() {
+        // "httpRequest.readyState == 4 && httpRequest.status == 200" means that it worked
+        if(httpRequest.readyState == 4 && httpRequest.status == 200) { 
+            document.getElementById("status").innerHTML = "";
+            // ok so here's the deal. when the php is successful then we get returned a josn array of names.
+            // these are the friends of the current user.
+
+            // first we clear the friend box which other wise will say Failed to load
+            document.getElementById("picturepage").innerHTML = "";
+
+            // takes the responseText which is the return value. this will be a json string
+            var return_data = httpRequest.responseText;
+            //document.getElementById("status").innerHTML = return_data;
+        var return_data_parse = return_data.replace(/[()]/g,''); 
+        return_data_parse = return_data_parse.replace(/\"\[\\\"/g,'["'); 
+        return_data_parse = return_data_parse.replace(/\\\"\]\"\,\[\"/g,','); 
+            //document.getElementById("status").innerHTML = return_data_parse;
+        return_data_parse = return_data_parse.replace(/\"\]\,\[\"/g,','); 
+        return_data_parse = return_data_parse.replace(/\,/g,'"],["'); 
+            //document.getElementById("status").innerHTML = return_data_parse;
+        //return_data_parse = return_data_parse.replace(/\"\]/g,''); 
+        //return_data_parse = "[" + return_data_parse + "]" 
+
+            // parses the string so now it's a javascript array
+            var jsonobject = JSON.parse(return_data_parse);
+        jsonobject[1] = Math.ceil(jsonobject[1] / 5);
+        //    var jsonobjectb = JSON.parse(jsonobject[1]);
+            //document.getElementById("status").innerHTML = jsonobject[1];
+
+        var picid = new Array();
+        var picurl = new Array();
+        var j = 0;
+            for (var i = 2; i < jsonobject.length; i++) {
+            picid[j] = jsonobject[i];
+        i = i + 1;
+        picurl[j] = jsonobject[i];
+        j = j + 1;
+        }
+
+            // grabs the location of where we're going to dump the friends list
+            var listbox = document.getElementById("picturepage");
+
+            // removes all elements inside. this insures that the list we get is always new
+            while (listbox.firstChild) {
+                listbox.removeChild(listbox.firstChild);
+            }
+
+            if(jsonobject[0] != 1){
+                var backapage = document.createElement('span');
+                backapage.setAttribute('id','navpagebutton');
+            backapage.innerHTML = "<input type=submit name=backapage value=<< onClick=\"javascript:backapage("+jsonobject[0]+");\">";
+                listbox.appendChild(backapage);
+            } 
+        
+
+            // loops through all the friends
+            for (var i = 0; i < picurl.length; i++) {
+                  
+                  // with each friend we make a new div element
+                  var friend = document.createElement('span');
+                  // set the id to Friend
+                  friend.setAttribute('id','picturepage');
+                  // and then make it a button with each button having the name of the friend and an onclick link to
+                  // the open conversation function with their name as a parameter.
+          friend.innerHTML = "<input name=picture type=image width=128 height=128 src=" + picurl[i] + " onClick=\"javascript:readytosendpicture('"+picurl[i]+"','"+picid[i]+"');\">";
+                  
+          // adds them to our friend box
+                  listbox.appendChild(friend);
+         };
+            
+        if(jsonobject[0] != jsonobject[1]){
+                var forapage = document.createElement('span');
+                forapage.setAttribute('id','navpagebutton');
+            forapage.innerHTML = "<input type=submit name=forapage value='>>' onClick=\"javascript:forapage("+jsonobject[0]+","+jsonobject[1]+");\">";
+                listbox.appendChild(forapage);
+            } 
+ 
+            document.getElementById("picpagenum").innerHTML = jsonobject[0] +" / "+jsonobject[1];
+    }
+        // nothing came back so error out?
+        else{
+            //document.getElementById("status").innerHTML = "Failed";
+    }       
+    };
+
+    // Send the data to PHP now... and wait for response to update the status div
+    httpRequest.send(varstub);
+    document.getElementById("status").innerHTML = "Loading...";
+}
+
+function readytosendpicture(picurl, picid){
+
+    document.getElementById("picidfield").src = picurl;
+    document.getElementById("picselected").value = picid;
+
+
+}
+
+function backapage(current){
+    if(current > 1){
+        setpicpage(current - 1);
+    } 
+}
+
+function forapage(current, max){
+    if(current < max){
+        setpicpage(current + 1);
+    }
+}
+
+function setpicpage(newpagenum){
+
+    // Creates a XMLHttpRequest object
+    var httpRequest = new XMLHttpRequest();
+    
+    // variables for our PHP file
+    var urlstub = "php/setnewpagenum.php";
+    var varstub = "newpicpage="+newpagenum;
+    httpRequest.open("POST", urlstub, true);
+
+    // Set content type header information for sending url encoded variables in the request
+    // Have no idea what this means. it was on the tutorial I watched
+    httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+   // Access the onreadystatechange event for the XMLHttpRequest object
+    // This is ASYNCHRONOUS BTW. what this does is when we do get a response back from the database (because it takes time)
+    // then run this code. in the meantime, run the code after. This is why we see processing.... on the page before an actually useful message.
+    httpRequest.onreadystatechange = function() {
+        // "httpRequest.readyState == 4 && httpRequest.status == 200" means that it worked
+        if(httpRequest.readyState == 4 && httpRequest.status == 200) { 
+            document.getElementById("status").innerHTML = "Yay";
+        loadpicture(); 
+    }
+        // nothing came back so error out?
+        else{
+            document.getElementById("status").innerHTML = "Failed";
+    }       
+    };
+
+    // Send the data to PHP now... and wait for response to update the status div
+    httpRequest.send(varstub);
+    document.getElementById("status").innerHTML = "Loading...";
+
+
+}
+
+function checksendmessage(){
+    var picid = document.getElementById("picselected").value;
+    if (!picid){
+            document.getElementById("status").innerHTML = "Nothing to send";
+    }
+    else {
+            document.getElementById("status").innerHTML = "";
+        sendmessage(picid);
+    }
+}
+
+function sendmessage(picid){
+    // Creates a XMLHttpRequest object
+    var httpRequest = new XMLHttpRequest();
+    
+    // variables for our PHP file
+    var urlstub = "php/sendmessage.php";
+    var varstub = "picid="+picid;
+    httpRequest.open("POST", urlstub, true);
+
+    // Set content type header information for sending url encoded variables in the request
+    // Have no idea what this means. it was on the tutorial I watched
+    httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+   // Access the onreadystatechange event for the XMLHttpRequest object
+    // This is ASYNCHRONOUS BTW. what this does is when we do get a response back from the database (because it takes time)
+    // then run this code. in the meantime, run the code after. This is why we see processing.... on the page before an actually useful message.
+    httpRequest.onreadystatechange = function() {
+        // "httpRequest.readyState == 4 && httpRequest.status == 200" means that it worked
+        if(httpRequest.readyState == 4 && httpRequest.status == 200) { 
+            var return_data = httpRequest.responseText;
+            document.getElementById("picselected").value = "";
+            document.getElementById("picidfield").src = "";
+        	if (return_data == 1){
+                	document.getElementById("status").innerHTML = "Sent :3";    
+        	}
+        	else if(return_data == 0){
+        	        document.getElementById("status").innerHTML = "Username does not exist";        
+        	}
+        	else{
+        	        document.getElementById("status").innerHTML = "You're not friends...yet";         
+        	}
+    	}
+        // nothing came back so error out?
+        else{
+            document.getElementById("status").innerHTML = "Failed to send";
+    	}       
+    };
+
+    // Send the data to PHP now... and wait for response to update the status div
+    httpRequest.send(varstub);
+    document.getElementById("status").innerHTML = "Sending...";
+
+
+}
+
+
+
+
+
+
