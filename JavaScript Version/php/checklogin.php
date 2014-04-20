@@ -13,6 +13,8 @@ session_start();
 $username = $_POST['username'];
 $_SESSION['username'] = $username;
 
+$_SESSION['picpage'] = 1;
+
 $query = "SELECT userid FROM Users WHERE username = '".$username."'";
 $result = pg_query($conn, $query);
 

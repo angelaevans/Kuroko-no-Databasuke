@@ -9,13 +9,24 @@
 		echo "Connection failed";
 		exit;
 	}	
+	$jsonoutput = array();
 
-	$username = $_SESSION['username'];
 
-	$query = "SELECT friendList('".$username."')";
+	$query = "SELECT getpicturesbypagemaxpage()";
 	$result = pg_query($conn, $query);
 
-	$jsonoutput = array();
+	$picpage = $_SESSION['picpage'];
+
+	$row = pg_fetch_row($result);
+
+	array_push($jsonoutput, '["'.$picpage.'"]');
+	array_push($jsonoutput, $row);
+
+
+
+	$query = "SELECT getpicturesbypage(".$picpage.")";
+	$result = pg_query($conn, $query);
+
 	while($row =pg_fetch_row($result)){
 		 array_push($jsonoutput, $row);
 	}
