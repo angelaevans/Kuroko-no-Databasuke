@@ -10,12 +10,8 @@
 </head>
 
 <body onload="firstload()">
-<<<<<<< HEAD
-	<input name="Logout" type="submit" id ="Logout" value=" [ Logout ] " onClick="javascript:logout();">
-=======
->>>>>>> fef51a87dd0ef5aa3de6211af91bdc4b60237768
+<input name="Logout" type="submit" id ="Logout" value=" [ Logout ] " onClick="javascript:logout();">
   <h1><?php echo $_SESSION['username']; ?></h1>
-
 <table width="100%" height="66%">
   <tr>
     <td width="226" height="71"><label id="friend" for="select">Friends:</label></td>
@@ -50,13 +46,16 @@
 		</div>
 		<p align="center" id="imageselectlabel">Send Reply:</p>
 		<p align="center" id="imageselection">
-		  <label for="textfield">	Image Path:</label>
-		  <input type="text" name="textfield" id="textfield">
-		  <input name="PictureSelect" type="button" id="PictureSelect" value="Picture Select">
+		  <img alt="[Message Here]" id="picidfield">
+		  <input name="picselected" type=hidden id="picselected">
+		  <input name="Sendbutton" type="submit" id="Sendbutton" value="Send!" onClick="javascript:checksendmessage();">
 		</p>
 
 	</td>
   </tr>
 </table>
+<div align="center" id="picturepage"></div>
+<div align="center" id="picpagenum"></div>
+</tr>
 </body>
 </html>
