@@ -9,16 +9,12 @@
 		echo "Connection failed";
 		exit;
 	}	
-
+	
+	$friendname = $_POST['friendname'];
 	$username = $_SESSION['username'];
 
-	$query = "SELECT friendList('".$username."')";
+	$query = "SELECT picPath FROM pictures WHERE picID = (SELECT getpicidfromConversation('".$username."', '".$friendname."'))";
 	$result = pg_query($conn, $query);
-	
-	$jsonoutput = array();
-	while($row =pg_fetch_row($result)){
-		 array_push($jsonoutput, $row);
-	}
-	
-	echo json_encode($jsonoutput);
+	$row = pg_fetch_row($result);
+	echo $row[0];
 ?>

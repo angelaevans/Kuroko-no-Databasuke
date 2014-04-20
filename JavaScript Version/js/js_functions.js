@@ -128,7 +128,7 @@ function register(user){
 
 function firstload(){
     loadfriends();
-
+	firstconversation();
 }
 
 // this method is called automaticlly in the <body> of friends.php as a onload event
@@ -165,7 +165,7 @@ function loadfriends(){
             var jsonobject = JSON.parse(return_data);
 	    
             // Sorts your friends list
-	    jsonobject.sort();
+			jsonobject.sort();
 
             // grabs the location of where we're going to dump the friends list
             var listbox = document.getElementById('friendbox');
@@ -200,12 +200,99 @@ function loadfriends(){
     
 }
 
-// Haven't done this yet but I have a plan. since this is javascript we can find the placeholders of where we're putting this data
-// hence why I wanted to put it all on one page. second we load the pictures that are currently on file for both users. we have both 
-// names so that's not a problem. then we either A. figure out how to push updates or B. refresh the picture every say 5=30 secs.
+//loads up the default images and labels on page start
+function firstconversation(){
+    // Creates a XMLHttpRequest object
+    var httpRequest = new XMLHttpRequest();
+    
+    // variables for our PHP file
+    var urlstub = "php/firstfriend.php";
+    var varstub = "";
+    httpRequest.open("POST", urlstub, true);
+
+    httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    httpRequest.onreadystatechange = function() {
+
+        if(httpRequest.readyState == 4 && httpRequest.status == 200) {
+			var return_data = httpRequest.responseText;
+			document.getElementById("friendname").innerHTML = return_data;
+            document.getElementById("status").innerHTML = "";
+        }
+        // nothing came back so error out?
+        else{
+            document.getElementById("status").innerHTML = "No friends. (But actually your php sucks)";
+        }
+    };
+
+    // Send the data to PHP now... and wait for response to update the status div
+    httpRequest.send(varstub);
+    
+}
+
+//calls both sides of the conversation update
 function openconversation(user){
- 	// in the meantime HI
-    alert("Hi "+user);
+	openuserconversation(user);
+	openfriendconversation(user);
+}
+
+//Will open the image in the user side of the conversation
+function openuserconversation(user){
+    var httpRequest = new XMLHttpRequest();
+
+    var urlstub = "php/loadconversation.php";
+    var varstub = "friendname="+user;
+
+    httpRequest.open("POST", urlstub, true);
+
+    httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    httpRequest.onreadystatechange = function() {
+        // "httpRequest.readyState == 4 && httpRequest.status == 200" means that it worked we got a response period
+        if(httpRequest.readyState == 4 && httpRequest.status == 200) {
+
+            var return_data = httpRequest.responseText;
+            
+                document.getElementById("userconversation").innerHTML = "<img src="+return_data+">";
+				document.getElementById("status").innerHTML = "";
+        }
+
+        else{
+            document.getElementById("status").innerHTML = "Failed. Try again.";
+        }
+    };
+
+    httpRequest.send(varstub);
+    
+}
+
+//Will open the image in the friend side of the conversation
+function openfriendconversation(user){
+    var httpRequest = new XMLHttpRequest();
+
+    var urlstub = "php/loadfriendconversation.php";
+    var varstub = "friendname="+user;
+
+    httpRequest.open("POST", urlstub, true);
+
+    httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    httpRequest.onreadystatechange = function() {
+        // "httpRequest.readyState == 4 && httpRequest.status == 200" means that it worked we got a response period
+        if(httpRequest.readyState == 4 && httpRequest.status == 200) {
+
+            var return_data = httpRequest.responseText;
+				document.getElementById("friendname").innerHTML = user;
+                document.getElementById("friendconversation").innerHTML = "<img src="+return_data+">";
+				document.getElementById("status").innerHTML = "";
+        }
+
+        else{
+            document.getElementById("status").innerHTML = "Failed. Try again.";
+        }
+    };
+
+    httpRequest.send(varstub);
     
 }
 
@@ -375,7 +462,7 @@ function logout(){
         if(httpRequest.readyState == 4 && httpRequest.status == 200) { 
             document.getElementById("status").innerHTML = "Yay";
             window.location.href = 'login.php';
- 
+			window.clearInterval(timerRefresh());
 	}
         // nothing came back so error out?
         else{

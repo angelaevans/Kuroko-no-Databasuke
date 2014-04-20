@@ -9,13 +9,14 @@
 	<script type="text/JavaScript" src="js/js_functions.js"></script> 
 </head>
 
-<body onload="loadfriends()">
+<body onload="firstload()">
+	<input name="Logout" type="submit" id ="Logout" value=" [ Logout ] " onClick="javascript:logout();">
   <h1><?php echo $_SESSION['username']; ?></h1>
 
 <table width="100%" height="66%">
   <tr>
     <td width="226" height="71"><label id="friend" for="select">Friends:</label></td>
-    <td width="226" height="71" align="center"><label id="friend" for="select" >Conversation:</label></td>
+    <td width="226" height="71" align="center"><label id="friend" for="select" >Chat Conversation</label></td>
   </tr>
   <tr>
     <td width="25%"  valign="top">
@@ -35,17 +36,17 @@
 		<div align="center">
 		  <table width="831" id="table">
 		    <tr>
-		      <td width="407"><?php echo $_SESSION['username']; ?></td>
-		      <td width="408"><?php echo $_SESSION['fname']; ?></td>
+		      <td width="407" id="namelabel">Your Message</td>
+		      <td width="408" id="namelabel"><div id="friendname"></div></td> 
 		    </tr>
 		    <tr>
-		      <td height="314">Message from User</td>
-		      <td>Message from Friend</td>
+		      <td height="314"><div id="userconversation"><img src="http://www.toplessrobot.com/assets_c/2010/02/IchigoQuestionMarks-thumb-300x224.jpg"></div></td>
+		      <td><div id="friendconversation"><img src="http://www.toplessrobot.com/assets_c/2010/02/IchigoQuestionMarks-thumb-300x224.jpg"></div></td>
 		    </tr>
 		  </table>
 		</div>
-		<p align="center">Send New Picture:</p>
-		<p align="center">
+		<p align="center" id="imageselectlabel">Send Reply:</p>
+		<p align="center" id="imageselection">
 		  <label for="textfield">	Image Path:</label>
 		  <input type="text" name="textfield" id="textfield">
 		  <input name="PictureSelect" type="button" id="PictureSelect" value="Picture Select">
@@ -54,6 +55,5 @@
 	</td>
   </tr>
 </table>
-<input name="Logout" type="submit" id ="Logout" value="Logout" onClick="javascript:logout();">
 </body>
 </html>
