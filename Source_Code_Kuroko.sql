@@ -97,3 +97,6 @@ CREATE OR REPLACE FUNCTION aretheyfriends(uname text, fname text) RETURNS BOOLEA
 
 -- Finds a conversation and returns the sendmessage's picid
 CREATE OR REPLACE FUNCTION getpicidfromConversation(username text, friendname text) RETURNS SETOF integer AS $getpicidfromConversation$ DECLARE	mainuser int; friend int; BEGIN Select usernametoid(username) into mainuser; Select usernametoid(friendname) into friend; RETURN QUERY SELECT sentMessage FROM conversation WHERE (userID=mainuser AND friendID=friend);  end; $getpicidfromConversation$ LANGUAGE plpgsql;
+
+--finds and returns the first 5 offset by page number from the picture table
+CREATE OR REPLACE FUNCTION getpicturesbypage(pagenumber integer) RETURNS SETOF varchar(200) AS $getpicturesbypage$ BEGIN RETURN QUERY SELECT picPath FROM Pictures limit 5 OFFSET 5 * (pagenumber -1); end; $getpicturesbypage$ LANGUAGE plpgsql;
