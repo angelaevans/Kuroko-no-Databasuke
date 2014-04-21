@@ -1,3 +1,5 @@
+var timer;
+
 // called when the login button is clicked
 function checklogin(){
     // grabs the user input
@@ -130,7 +132,7 @@ function firstload(){
     loadfriends();
     firstconversation();
     loadpicture();
-
+    clearTimeout(timer);
 }
 
 
@@ -237,7 +239,9 @@ function firstconversation(){
 function openconversation(user){
     openuserconversation(user);
     openfriendconversation(user);
+    clearTimeout(timer);
 }
+
 
 //Will open the image in the user side of the conversation
 function openuserconversation(user){
@@ -255,7 +259,7 @@ function openuserconversation(user){
         if(httpRequest.readyState == 4 && httpRequest.status == 200) {
 
             var return_data = httpRequest.responseText;
-            
+           
                 document.getElementById("userconversation").innerHTML = "<img src="+return_data+">";
                 document.getElementById("status").innerHTML = "";
         }
@@ -288,6 +292,11 @@ function openfriendconversation(user){
                 document.getElementById("friendname").innerHTML = user;
                 document.getElementById("friendconversation").innerHTML = "<img src="+return_data+">";
                 document.getElementById("status").innerHTML = "";
+		
+		var friendname = user;
+                //document.getElementById("status").innerHTML = "I'm updating "+ friendname + Math.random();
+		clearTimeout(timer);
+		timer = setTimeout(openfriendconversation, 1000, friendname)
         }
 
         else{
@@ -669,7 +678,7 @@ var httpRequest = new XMLHttpRequest();
         if(httpRequest.readyState == 4 && httpRequest.status == 200) {
 
             var return_data = httpRequest.responseText;
-				alert("User update "+return_data);
+			//	alert("User update "+return_data);
 				document.getElementById("userconversation").innerHTML = "";
                 document.getElementById("userconversation").innerHTML = "<img src="+return_data+">";
 				document.getElementById("status").innerHTML = "";
