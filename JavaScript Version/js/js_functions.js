@@ -645,12 +645,43 @@ function setpicpage(newpagenum){
 function checksendmessage(){
     var picid = document.getElementById("picselected").value;
     if (!picid){
-            document.getElementById("status").innerHTML = "Nothing to send";
+        document.getElementById("status").innerHTML = "Nothing to send";
     }
     else {
-            document.getElementById("status").innerHTML = "";
+        document.getElementById("status").innerHTML = "";
         sendmessage(picid);
+		updateuserconversation();
     }
+}
+
+function updateuserconversation(){
+var httpRequest = new XMLHttpRequest();
+
+    var urlstub = "php/updateuserconversation.php";
+    var varstub = "";
+
+    httpRequest.open("POST", urlstub, true);
+
+    httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    httpRequest.onreadystatechange = function() {
+        // "httpRequest.readyState == 4 && httpRequest.status == 200" means that it worked we got a response period
+        if(httpRequest.readyState == 4 && httpRequest.status == 200) {
+
+            var return_data = httpRequest.responseText;
+				alert("User update "+return_data);
+				document.getElementById("userconversation").innerHTML = "";
+                document.getElementById("userconversation").innerHTML = "<img src="+return_data+">";
+				document.getElementById("status").innerHTML = "";
+        }
+
+        else{
+            document.getElementById("status").innerHTML = "User update Failed. Try again.";
+        }
+    };
+
+    httpRequest.send(varstub);
+    
 }
 
 function sendmessage(picid){

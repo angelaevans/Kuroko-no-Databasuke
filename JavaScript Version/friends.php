@@ -19,11 +19,8 @@
   </tr>
   <tr>
     <td width="25%"  valign="top">
-	    <div id= "friendbox" style="max-height:400px;overflow:auto; min-width:280px;">
-
-	    
-	    </div>
-	    <div>
+	    <div id= "friendbox" style="max-height:400px;overflow:auto; min-width:280px;"></div>
+	    <div id="addremovefriend">
 			<input type="text" name="add" id="AddFriendtextfield" placeholder="Friend's Username">
 			<input type="submit" name="AddFriend" id="AddFriend" value="Add Friend" onClick="javascript:checkAddFriend();">
 			<br />
@@ -33,29 +30,39 @@
 	</td>
 	<td width="75%" valign="top">
 		<div align="center">
-		  <table width="831" id="table">
+		  <table width="75%" id="table">
 		    <tr>
-		      <td width="407" id="namelabel">Your Message</td>
-		      <td width="408" id="namelabel"><div id="friendname"></div></td> 
+		      <td width="30" id="namelabel"><div id="friendname"></td>
+		      <td width="30" id="namelabel">Your Message</div></td> 
 		    </tr>
 		    <tr>
-		      <td height="314"><div id="userconversation"><img src="http://www.toplessrobot.com/assets_c/2010/02/IchigoQuestionMarks-thumb-300x224.jpg"></div></td>
-		      <td><div id="friendconversation"><img src="http://www.toplessrobot.com/assets_c/2010/02/IchigoQuestionMarks-thumb-300x224.jpg"></div></td>
+		      <td height="250"><div id="friendconversation"><img src="http://www.toplessrobot.com/assets_c/2010/02/IchigoQuestionMarks-thumb-300x224.jpg"></div></td>
+		      <td><div id="userconversation"><img src="http://www.toplessrobot.com/assets_c/2010/02/IchigoQuestionMarks-thumb-300x224.jpg"></div></td>
 		    </tr>
 		  </table>
 		</div>
-		<p align="center" id="imageselectlabel">Send Reply:</p>
-		<p align="center" id="imageselection">
-		  <img alt="[Message Here]" id="picidfield">
-		  <input name="picselected" type=hidden id="picselected">
-		  <input name="Sendbutton" type="submit" id="Sendbutton" value="Send!" onClick="javascript:checksendmessage();">
-		</p>
-
+		<div align="center">
+			<table width="100%" height="150" id="table">
+				<tr><div align="center" id="namelabel">Send a Reply</div></tr>
+				<tr><p>Click the image you want to reply with below, and then press the send button!</p></tr>
+				<tr>
+					<td>
+						<div align="center" id="picturepage"></div>
+						<div align="center" id="picpagenum"></div>
+					</td>
+					<td>
+						<div align="center" id="imageselection">
+						<img alt="[Message Here]" id="picidfield">
+						<input name="picselected" type=hidden id="picselected">
+						<input name="Sendbutton" type="submit" id="Sendbutton" value="Send!" onClick="javascript:checksendmessage();">
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</td>
   </tr>
 </table>
-<div align="center" id="picturepage"></div>
-<div align="center" id="picpagenum"></div>
 </tr>
 </body>
 </html>

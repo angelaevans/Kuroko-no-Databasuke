@@ -47,6 +47,7 @@ input[type=submit] {
 }
 
 #namelabel{
+	text-align:center; 
 	font-family: "Impact";
 	color: #30ACFF;
 	font-size: 2em;
@@ -91,7 +92,8 @@ input[type=submit] {
 	font-size: 1.2em;
 	font-family: "Arial";
 	color: #000000;
-	padding: 3px; 
+	padding: 3px;
+	vertical-align:middle;	
 }
 
 #PictureSelect{
@@ -100,3 +102,14 @@ input[type=submit] {
 	color: #000000;
 	padding: 3px; 
 }
+
+#userconversation{
+	text-align:center; 
+	vertical-align:middle;
+}
+
+#friendconversation{
+	text-align:center; 
+	vertical-align:middle;
+}
+
