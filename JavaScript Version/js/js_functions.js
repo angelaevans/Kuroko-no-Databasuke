@@ -650,7 +650,7 @@ function checksendmessage(){
     else {
         document.getElementById("status").innerHTML = "";
         sendmessage(picid);
-		updateuserconversation();
+
     }
 }
 
@@ -707,7 +707,8 @@ function sendmessage(picid){
             document.getElementById("picselected").value = "";
             document.getElementById("picidfield").src = "";
         	if (return_data == 1){
-                	document.getElementById("status").innerHTML = "Sent :3";    
+                	document.getElementById("status").innerHTML = "Sent :3";
+                	updateuserconversation();    
         	}
         	else if(return_data == 0){
         	        document.getElementById("status").innerHTML = "Username does not exist";        
