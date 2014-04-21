@@ -179,7 +179,7 @@ function loadfriends(){
             }
 
             // loops through all the friends
-            for (var i = 1; i < jsonobject.length; i++) {
+            for (var i = 0; i < jsonobject.length; i++) {
                   
                   // with each friend we make a new div element
                   var friend = document.createElement('div');
