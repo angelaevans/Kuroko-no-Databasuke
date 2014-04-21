@@ -60,25 +60,15 @@ input[type=submit] {
 	background: #FFFFFF;
 	float: right;
 	font-size: 1.5em;
-	font-family: "Impact";
+	font-family: "Arial";
+	font-weight: bold;
 	color: #FF1919;
-	padding: 0; 
-}
-
-#DeleteFriend{
-	background: #E6E6E6;
-	font-size: 1.5em;
-	font-family: "Arial";
-	color: #000000;
 	padding: 3px; 
 }
 
-#AddFriend{
-	background: #E6E6E6;
-	font-size: 1.5em;
-	font-family: "Arial";
-	color: #000000;
-	padding: 3px; 
+input[type=button]{
+	font-size: 1.2em;
+    font-family: Tahoma;
 }
 
 #imageselectlabel{
@@ -113,3 +103,13 @@ input[type=submit] {
 	vertical-align:middle;
 }
 
+#instructions{
+	text-align:center; 
+	font-family: "Arial";
+	font-weight: bold;
+	color: #7C7C7C;
+	font-size: 1em;
+	line-height: 30px;
+	margin: 0; 
+  	padding: 0; 
+}

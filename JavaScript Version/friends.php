@@ -11,7 +11,7 @@
 
 <body onload="firstload()">
 <input name="Logout" type="submit" id ="Logout" value=" [ Logout ] " onClick="javascript:logout();">
-  <h1><?php echo $_SESSION['username']; ?></h1>
+  <h1 id="bannername"><?php echo $_SESSION['username']; ?></h1>
 <table width="100%" height="66%">
   <tr>
     <td width="226" height="71"><label id="friend" for="select">Friends:</label></td>
@@ -22,10 +22,11 @@
 	    <div id= "friendbox" style="max-height:400px;overflow:auto; min-width:280px;"></div>
 	    <div id="addremovefriend">
 			<input type="text" name="add" id="AddFriendtextfield" placeholder="Friend's Username">
-			<input type="submit" name="AddFriend" id="AddFriend" value="Add Friend" onClick="javascript:checkAddFriend();">
+			<input type="text" name="delete" id="DeleteFriendtextfield" placeholder="Friend's Username">
 			<br />
-			<input type="text" name="delete" id="DeleteFriendtextfield" placeholder="Friend's Username"><input type="submit" name="DeleteFriend" id="DeleteFriend" value="Delete Friend" onClick="javascript:checkDeleteFriend();">
-			<div align="center" id="status"></div>
+			<input type="button" name="AddFriend" id="AddFriend" value="Add Friend" onClick="javascript:checkAddFriend();"><input type="button" name="DeleteFriend" id="DeleteFriend" value="Delete Friend" onClick="javascript:checkDeleteFriend();">
+			<br /?
+			<p><div align="center" id="status"></div></p>
 		</div>
 	</td>
 	<td width="75%" valign="top">
@@ -44,7 +45,7 @@
 		<div align="center">
 			<table width="100%" height="150" id="table">
 				<tr><div align="center" id="namelabel">Send a Reply</div></tr>
-				<tr><p>Click the image you want to reply with below, and then press the send button!</p></tr>
+				<tr><div id="instructions">Click the image you want to reply with below, and then press the send button!</div></tr>
 				<tr>
 					<td>
 						<div align="center" id="picturepage"></div>
@@ -54,7 +55,7 @@
 						<div align="center" id="imageselection">
 						<img alt="[Message Here]" id="picidfield">
 						<input name="picselected" type=hidden id="picselected">
-						<input name="Sendbutton" type="submit" id="Sendbutton" value="Send!" onClick="javascript:checksendmessage();">
+						<input name="Sendbutton" type="button" id="Sendbutton" value="Send!" onClick="javascript:checksendmessage();">
 						</div>
 					</td>
 				</tr>
